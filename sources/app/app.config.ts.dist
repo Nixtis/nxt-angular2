@@ -1,0 +1,14 @@
+export const appConfig = {
+    api: {
+        domain: 'api.nxt.com',
+        oauthPath: 'oauth',
+        protocol: 'http',
+    },
+    ga: {
+        key: 'UA-XXXXXXXX-2',
+    },
+    oauth: {
+        clientId: '',
+        clientSecret: '',
+    },
+}

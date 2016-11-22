@@ -1,0 +1,9 @@
+/node_modules/
+/**/.DS_Store
+/.vscode/
+/typings/
+/**/*.log
+/prod/
+/.idea
+/sources/app/app.config.ts
+npm-debug.log.*
