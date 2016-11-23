@@ -19,18 +19,16 @@ import { NxtMapService } from './'
 export class NxtMapComponent {
     public currentYear: number
 
-    @Input('datesList') public datesList: any[] // {array}: Liste des dates
-    @Input('timeDimension') public timeDimension: Boolean // {boolean}: Si oui ou non afficher le choix du filtre par date
-    @Input('centerLat') private centerLat: number
-    @Input('centerLng') private centerLng: number
-    @Input('centerZoom') private centerZoom: number
+    @Input('centerLat') private centerLat: number = 48.853
+    @Input('centerLng') private centerLng: number = 2.348
+    @Input('centerZoom') private centerZoom: number = 18
     @Input('zoomPosition') private zoomPosition: string = 'bottomright'
     @Input('urlBaseMap') private urlBaseMap: string = ''
     @Input('attribution') private attribution: string = ''
 
-    private map: Map
-    private geoJson: any
-    private markersObj: any[]
+    private map: Map = null
+    private geoJson: any = null
+    private markersObj: any[] = []
     private el: ElementRef
     private layers: any[] = []
 
@@ -40,14 +38,7 @@ export class NxtMapComponent {
         el: ElementRef,
         @Inject(NxtMapService) nxtMapService: NxtMapService
     ) {
-        this.map = null
-        this.geoJson = null
-        this.markersObj = []
         this.el = el
-
-        this.centerLat = 48.853
-        this.centerLng = 2.348
-        this.centerZoom = 18
 
         this.nxtMapService = nxtMapService
     }
