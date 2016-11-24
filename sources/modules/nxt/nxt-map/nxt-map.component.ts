@@ -118,17 +118,17 @@ export class NxtMapComponent {
 
     /**
      * Déplacement de la carte vers les coordonnées renseignées
-     * @param {object} coordinate
+     * @param {lat, lng}
      * @param {number} zoom
      */
-    private panTo (coordinate: LatLng, zoom) {
-        this.map.panTo(new LatLng(coordinate.lat, coordinate.lng), {
+    private panTo ({ lat, lng }, zoom) {
+        this.map.panTo(new LatLng(lat, lng), {
             animate: true,
             duration: 0.5,
         })
 
-        this.centerLat = coordinate.lat
-        this.centerLng = coordinate.lng
+        this.centerLat = lat
+        this.centerLng = lng
         this.centerZoom = zoom
 
         setTimeout(() => {
