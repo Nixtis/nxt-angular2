@@ -8,6 +8,7 @@ import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
     outputs,
     selector: 'nxt-input',
     styles: [
+        require('../_nxt-form.component.scss'),
         require('./_nxt-input.component.scss'),
     ],
     template: `
@@ -20,6 +21,7 @@ import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
                     <input *ngSwitchCase="'number'" type="number" [min]="min" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
                     <input *ngSwitchCase="'password'" type="password" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
                     <input *ngSwitchCase="'text'" type="text" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled"/>
+                    <input *ngSwitchCase="'date'" type="date" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled"/>
                 </div>
             </label>
 
@@ -50,18 +52,19 @@ export class NxtInputComponent extends NxtFormComponent {
 
     public initChange (event) {
         if (!this.disabled) {
-            if (event === null) {
-                event = ''
-            }
-
             this.onChange(event)
         }
     }
 
     public isValid () {
-        let regex
+        let regex: RegExp
 
         switch (this.type) {
+            case 'date':
+                if (this.value !== '') {
+                    regex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
+                    break
+                }
             case 'email':
                 if (this.value !== '') {
                     regex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i
@@ -87,7 +90,7 @@ export class NxtInputComponent extends NxtFormComponent {
                 }
         }
 
-        return regex.test(this.value)
+        return this.required ? regex.test(this.value) && this.value !== null : regex.test(this.value)
     }
 
     public reset () {

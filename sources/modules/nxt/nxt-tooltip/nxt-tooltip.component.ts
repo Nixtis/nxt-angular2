@@ -83,11 +83,11 @@ export class NxtTooltipComponent {
         let parentPosition = this.parentElement.getBoundingClientRect()
 
         let x: number = parentPosition.left + (parentPosition.width / 2)
-        let y: number = parentPosition.top
+        let y: number = document.documentElement.scrollTop ? parentPosition.top + document.documentElement.scrollTop : parentPosition.top + document.body.scrollTop
 
         return {
             translateX: '-50%',
-            translateY: '-100%',
+            translateY: '-125%',
             x,
             y,
         }
@@ -114,7 +114,7 @@ export class NxtTooltipComponent {
         let y: number = parentPosition.top + (parentPosition.height / 2)
 
         return {
-            translateX: '-100%',
+            translateX: '-109%',
             translateY: '-50%',
             x,
             y,

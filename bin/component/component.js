@@ -6,7 +6,10 @@ class Component {
         this.routeObjectName = ''
         this.selector = ''
         this.prefixClassesName = ''
+        this.namespace = ''
         this.appPath = ''
+        this.parentsPath = '../'
+        this.componentTestFileContent = require('./component.spec.file')
         this.componentFileContent = require('./component.file')
         this.componentRoutesFileContent = require('./component-routes.file')
         this.componentRoutesRootFileContent = require('./component-routes-root.file')
@@ -39,9 +42,15 @@ class Component {
         let primaryRoute = this.path.split('/')
 
         this.root = primaryRoute[0]
+
+        let rootParts = this.root.split('-')
+        rootParts.forEach((part) => {
+            this.namespace += part.substring(0, 1).toUpperCase() + part.substring(1)
+        })
+
         this.selector = primaryRoute[primaryRoute.length - 1]
 
-        let parts = primaryRoute[primaryRoute.length - 1].split('-')
+        let parts = this.selector.split('-')
         parts.forEach((part) => {
             this.prefixClassesName += part.substring(0, 1).toUpperCase() + part.substring(1)
         })
@@ -49,10 +58,10 @@ class Component {
         this.routeObjectName = this.prefixClassesName.substring(0, 1).toLowerCase() + this.prefixClassesName.substring(1) + 'Route'
 
         for (let i = 0; i < primaryRoute.length; i++) {
-            this.appPath += '../'
+            this.parentsPath += '../'
         }
 
-        this.appPath += '../app'
+        this.appPath =  this.parentsPath + 'app'
 
         this.writeFiles()
     }
@@ -78,6 +87,12 @@ class Component {
 
                 parents += row + '/'
             })
+        
+        fs.mkdirSync(sourcesPath + '/components/' + this.path + '/_tests')
+        this.componentTestFileContent = this.componentTestFileContent.replace(/\{\{mockPath\}\}/g, this.parentsPath + '../mocks')
+        this.componentTestFileContent = this.componentTestFileContent.replace(/\{\{componentClassName\}\}/g, this.prefixClassesName + 'Component')
+        this.componentTestFileContent = this.componentTestFileContent.replace(/\{\{selector\}\}/g, this.selector)
+        fs.writeFileSync(path.resolve(sourcesPath, 'components/' + this.path + '/_tests/' + this.selector + '.component.spec.ts'), this.componentTestFileContent)
 
         this.componentFileContent = this.componentFileContent.replace(/\{\{selector\}\}/g, this.selector)
         this.componentFileContent = this.componentFileContent.replace(/\{\{appPath\}\}/g, this.appPath)
@@ -102,7 +117,6 @@ class Component {
                 content = this.componentRoutesRootFileContent
             } else {
                 content = fs.readFileSync(path.resolve(sourcesPath, 'components/' + this.root + '/' + this.root + '.routes.ts'), 'utf8')
-                console.log(path.resolve(sourcesPath, 'components/' + this.root + '/' + this.root + '.routes.ts'), content)
             }
 
             content = content
@@ -132,6 +146,16 @@ class Component {
         
         fs.writeFileSync(path.resolve(sourcesPath, 'components/' + this.root + '/' + this.root + '.routes.ts'), content)
 
+        // Index file
+        let indexContent = ''
+        if (fs.existsSync(path.resolve(sourcesPath, 'components/' + this.root + '/index.ts'))) {
+            indexContent = fs.readFileSync(path.resolve(sourcesPath, 'components/' + this.root + '/index.ts'), 'utf8')
+        }
+
+        let componentFileRelativePath = './' + this.path.replace(this.root + '/', '') + '/' + this.selector + '.component'
+        indexContent += 'export { ' + this.prefixClassesName + 'Component' + ' } from \'' + componentFileRelativePath + '\'' + '\n\n'
+        fs.writeFileSync(path.resolve(sourcesPath, 'components/' + this.root + '/index.ts'), indexContent)
+
         let appRoutesContent = fs.readFileSync(path.resolve(sourcesPath, 'app/app.routes.ts'), 'utf8')
 
         if (appRoutesContent.indexOf('} from \'../components/' + this.root + '/' + this.root + '.routes\'' + '\n' + '/// ROUTE IMPORTATION END') > -1) {
@@ -157,17 +181,17 @@ class Component {
 
         appRoutesContent = appRoutesContent
             .replace(']' + '\n' + '/// APP ROUTER EXPORTATION END', '    ' + this.root.toLocaleUpperCase()  + '_ROUTE_PROVIDERS,' + '\n' + ']'+ '\n' + '/// APP ROUTER EXPORTATION END')
-            .replace(']' + '\n' + '/// ROUTES DEFINITION END', '    ' + this.routeObjectName + ',' + '\n' + ']'+ '\n' + '/// ROUTES DEFINITION END')
+            .replace(']' + '\n' + '/// ROUTES DEFINITION END', '    ' + this.routeObjectName + ',' + '\n' + ']' + '\n' + '/// ROUTES DEFINITION END')
         
         fs.writeFileSync(path.resolve(sourcesPath, 'app/app.routes.ts'), appRoutesContent)
 
         // NgModules
         let appModulesContent = fs.readFileSync(path.resolve(sourcesPath, 'app/app.module.ts'), 'utf8')
         appModulesContent = appModulesContent
-            .replace('import { ' + this.prefixClassesName + 'Component }' + 'from \'../components/' + this.path + '/' + this.selector + '.component' + '\'' + '\n', '')
-            .replace('    ' + this.prefixClassesName + 'Component,' + '\n', '')
-            .replace('/// COMPONENTS IMPORTATION END', 'import { ' + this.prefixClassesName + 'Component }' + 'from \'../components/' + this.path + '/' + this.selector + '.component' + '\'' + '\n' + '/// COMPONENTS IMPORTATION END')
-            .replace(/\](\r\n|\r|\n)\/\/\/ COMPONENTS DEFINITION END/, '    ' + this.prefixClassesName + 'Component,' + '\n' + ']'+ '\n' + '/// COMPONENTS DEFINITION END')
+            .replace('import * as ' + this.namespace + ' from \'../components/' + this.root + '\'' + '\n', '')
+            .replace('    ' + this.namespace + '.' + this.prefixClassesName + 'Component,' + '\n', '')
+            .replace('/// COMPONENTS IMPORTATION END', 'import * as ' + this.namespace + ' from \'../components/' + this.root + '\'' + '\n' + '/// COMPONENTS IMPORTATION END')
+            .replace(/\](\r\n|\r|\n)\/\/\/ COMPONENTS DEFINITION END/, '    ' + this.namespace + '.' + this.prefixClassesName + 'Component,' + '\n' + ']'+ '\n' + '/// COMPONENTS DEFINITION END')
 
         fs.writeFileSync(path.resolve(sourcesPath, 'app/app.module.ts'), appModulesContent)
 

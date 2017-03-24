@@ -10,6 +10,7 @@ import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
     outputs,
     selector: 'nxt-switch',
     styles: [
+        require('../_nxt-form.component.scss'),
         require('./_nxt-switch.component.scss'),
     ],
     template: `

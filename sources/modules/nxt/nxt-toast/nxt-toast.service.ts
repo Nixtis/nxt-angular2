@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentFactoryResolver, Inject, Injectable, Injector, ReflectiveInjector, ValueProvider, ViewContainerRef } from '@angular/core'
+import { ApplicationRef, ComponentFactoryResolver, Inject, Injectable, ReflectiveInjector, ValueProvider, ViewContainerRef } from '@angular/core'
 
 import { EventsService } from '../../../helpers'
 import { NxtToastContainerComponent } from './'
@@ -11,13 +11,13 @@ export class NxtToastService extends EventsService {
 
     constructor (
         @Inject(ComponentFactoryResolver) componentResolver,
-        applicationRef: ApplicationRef,
-        injector: Injector
+        applicationRef: ApplicationRef
     ) {
         super()
 
         this.componentResolver = componentResolver
-        this.viewRootContainerRef = injector.get(applicationRef.componentTypes[0]).viewContainerRef
+        this.viewRootContainerRef = applicationRef['_rootComponents'][0]['_component'].viewContainerRef
+        // this.viewRootContainerRef = injector.get(applicationRef.componentTypes[0]).viewContainerRef
     }
 
     public pop (content: string, duration: number, className: string = ''): Promise<boolean> {

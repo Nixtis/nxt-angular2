@@ -41,11 +41,47 @@ nxt-switch {
                     }
                 }
 
+                &.chevron {
+                    border-style: solid;
+                    border-width: 4px 4px 0 0;
+                    content: '';
+                    display: inline-block;
+                    height: 12px;
+                    position: relative;
+                    top: 0;
+                    transform: rotate(135deg);
+                    vertical-align: top;
+                    width: 12px;
+                    background-color: white;
+                    color: gray;
+                    margin: 8px auto 12px auto;
+
+                    &:before {
+                        display: none;
+                    }
+
+                    &.active {
+                        border-style: solid;
+                        border-width: 4px 4px 0 0;
+                        content: '';
+                        display: inline-block;
+                        height: 12px;
+                        position: relative;
+                        top: 4px;
+                        transform: rotate(-45deg);
+                        vertical-align: top;
+                        width: 12px;
+                        background-color: white;
+                        color: gray;
+                        margin: 12px auto 8px auto;
+                    }
+                }
+
                 &.active {
                     background-color: $primary;
 
                     &:before {
-                        margin-left: 20px;
+                        margin-left: 15px;
                     }
                 }
             }

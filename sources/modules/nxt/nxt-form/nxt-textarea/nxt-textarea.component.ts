@@ -10,6 +10,7 @@ import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
     outputs,
     selector: 'nxt-textarea',
     styles: [
+        require('../_nxt-form.component.scss'),
         require('./_nxt-textarea.component.scss'),
     ],
     template: `

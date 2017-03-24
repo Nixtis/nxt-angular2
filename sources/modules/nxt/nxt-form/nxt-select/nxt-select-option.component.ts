@@ -36,7 +36,7 @@ export class NxtSelectOptionComponent {
 
     public ngAfterViewInit () {
         setTimeout(() => {
-            this.textContent = this.elementRef.nativeElement.querySelector('.nxt-option').textContent.trim()
+            this.textContent = this.elementRef.nativeElement.querySelector('.nxt-option').textContent.trim().replace(/\s\s+/g, ' ')
 
             this.nxtSelectComponent.addOption(this)
         })

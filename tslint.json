@@ -15,7 +15,18 @@
         "no-unused-variable": true,
         "semicolon": [ true, "never" ],
         "max-line-length": [ false ],
-        "no-string-literal": false
+        "no-string-literal": false,
+        "no-namespace": [
+            false
+        ],
+        "only-arrow-functions": [
+            false
+        ],
+        "variable-name": [
+            true,
+            "check-format",
+            "allow-leading-underscore"
+        ]
     },
     "rulesDirectory": [
         /*

@@ -9,11 +9,9 @@ if (process.env.NODE_ENV === 'production') {
         appState: appReducer,
     }))
 } else {
-    let devToolsExtension: string = 'devToolsExtension'
-
     appStore = createStore(combineReducers({
         appState: appReducer,
-    }), window[devToolsExtension] && window[devToolsExtension]())
+    }), window['devToolsExtension'] && window['devToolsExtension']())
 }
 
-export const AppStore = appStore
+export const store = appStore

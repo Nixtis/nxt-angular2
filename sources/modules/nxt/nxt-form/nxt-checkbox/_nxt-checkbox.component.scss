@@ -1,8 +1,12 @@
 .nxt-checkbox-container {
-    margin-top: 15px;
+    margin-top: 5px;
     
-    label {
+    .nxt-checkbox-content {
+        display: flex;
+        cursor: pointer;
+
         .nxt-checkbox-item-button {
+            margin-right: 10px;
             width: 20px;
             height: 20px;
             border: black 1px solid;
@@ -17,7 +21,7 @@
     }
 
     &.disabled {
-        label {
+        .nxt-checkbox-content {
             &, * {
                 cursor: no-drop;
             }

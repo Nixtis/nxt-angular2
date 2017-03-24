@@ -1,4 +1,4 @@
-import { ViewContainerRef } from '@angular/core'
+import { ViewContainerRef, ViewRef } from '@angular/core'
 
 import { EventsService } from '../../../helpers'
 
@@ -6,25 +6,24 @@ export class NxtModalContentComponent {
     public context: any
 
     protected eventsService: EventsService
-    protected index: number
 
+    private viewRefModal: ViewRef
     private viewContainerRef: ViewContainerRef
 
     constructor (
         context: any,
         eventsService: EventsService,
-        index: number,
+        viewRefModal: ViewRef,
         viewContainerRef: ViewContainerRef
     ) {
         this.context = context
         this.eventsService = eventsService
-        this.index = index
         this.viewContainerRef = viewContainerRef
     }
 
     public ngOnInit () {
-        this.eventsService.on(this, 'nxtModalUpdateContext', (el, c: string) => {
-            if (this.viewContainerRef.get(this.index) === el) {
+        this.eventsService.on(this, 'nxtModalUpdateContext', (viewRefModal, c: string) => {
+            if (this.viewRefModal === viewRefModal) {
                 this.context = c
             }
         })

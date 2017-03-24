@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Inject, ReflectiveInjector, ViewContainerRef, ViewEncapsulation } from '@angular/core'
+import { Component, ComponentFactoryResolver, Inject, ReflectiveInjector, ViewContainerRef } from '@angular/core'
 import { select } from 'ng2-redux'
 import { Observable } from 'rxjs/Rx'
 
@@ -11,7 +11,6 @@ import { AppActions, appConfig } from './'
 import '../sass/screen.scss'
 
 @Component({
-    encapsulation: ViewEncapsulation.None,
     selector: 'app',
     styles: [],
     template: require('./_app.component.html'),

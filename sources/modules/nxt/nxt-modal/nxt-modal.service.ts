@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, Injectable, ReflectiveInjector, ValueProvider, ViewContainerRef, ViewRef } from '@angular/core'
+import { ComponentFactoryResolver, ComponentRef, Injectable, ReflectiveInjector, ValueProvider, ViewContainerRef, ViewRef } from '@angular/core'
 
 import { EventsService } from '../../../helpers'
 import { NxtModalContentComponent } from './nxt-modal-content.component'
@@ -18,8 +18,6 @@ export class NxtModalService extends EventsService {
     }
 
     public pop (viewContainerRef: ViewContainerRef, title: string, content: any, context: any, className: string = ''): Promise<ViewRef> {
-        const index = viewContainerRef.length
-
         if (!(content.prototype instanceof NxtModalContentComponent)) {
             throw new Error('Component class must extends NxtModalContentComponent')
         }
@@ -30,7 +28,6 @@ export class NxtModalService extends EventsService {
             { provide: 'content', useValue: content },
             { provide: 'context', useValue: context },
             { provide: 'className', useValue: className },
-            { provide: 'index', useValue: index },
             { provide: 'viewContainerRef', useValue: viewContainerRef },
             { provide: 'nxtModalService', useValue: this },
             { provide: EventsService, useValue: this },
@@ -39,8 +36,14 @@ export class NxtModalService extends EventsService {
         const injector = ReflectiveInjector.fromResolvedProviders(childInjector, viewContainerRef.injector)
 
         return new Promise(resolve => {
-            viewContainerRef.createComponent(modal, index, injector)
-            resolve(viewContainerRef.get(index))
+            const index = viewContainerRef.length
+
+            let componentRef: ComponentRef<NxtModalComponent> = viewContainerRef.createComponent(modal, index, injector)
+            let viewRef = viewContainerRef.get(index)
+
+            componentRef.instance.setViewRef(viewRef)
+
+            resolve(viewRef)
         })
     }
 

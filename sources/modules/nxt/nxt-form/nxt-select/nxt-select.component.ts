@@ -13,15 +13,22 @@ import { NxtFormComponent, NxtFormService, NxtSelectOptionComponent, inputs, out
     outputs,
     selector: 'nxt-select',
     styles: [
+        require('../_nxt-form.component.scss'),
         require('./_nxt-select.component.scss'),
     ],
     template: `
-        <div class="nxt-select-container" [ngClass]="{'error': !valid && (touched || formSent), 'disabled': disabled}">
-            <label>
-                <div class="label" *ngIf="label != ''">{{label}} <span class="nxt-input-required" *ngIf="required">*</span> :</div>
-                <input type="text" *ngIf="autocomplete" (keyup)="keyup($event)" [(ngModel)]="currentTextOption" [placeholder]="placeholder" class="nxt-select-input-autocomplete" autocomplete="off" [disabled]="disabled" />
+        <div class="nxt-select-container" [ngClass]="{ 'error': !valid && (touched || formSent), 'disabled': disabled }">
+            <div class="label-container">
+                <div class="label" *ngIf="label !== ''">{{label}} <span class="nxt-input-required" *ngIf="required">*</span> :</div>
+                <div class="nxt-select-autocomplete-container" *ngIf="autocomplete" [ngClass]="{ 'multiple': multiple }">
+                    <div class="nxt-select-tag" *ngFor="let t of selectedTags">
+                        <span class="nxt-select-tag-text">{{ t.textContent }}</span>
+                        <button (click)="removeTag(t)" type="button" class="nxt-select-tag-delete"><i class="fa fa-times"></i></button>
+                    </div>
+                    <input type="text" *ngIf="(selectedTags.length === 0) || multiple" (keyup)="keyup($event)" [(ngModel)]="currentTextOption" [placeholder]="placeholder" class="nxt-select-input-autocomplete" autocomplete="off" [disabled]="disabled" />
+                </div>
                 <div *ngIf="autocomplete && loading" class="nxt-select-loader"></div>
-            </label>
+            </div>
 
             <div class="nxt-select-dropdown" *ngIf="!autocomplete" (click)="showOptions = disabled ? false : !showOptions">
                 <span class="nxt-select-current-option" [innerHtml]="currentOption"></span>
@@ -30,7 +37,10 @@ import { NxtFormComponent, NxtFormService, NxtSelectOptionComponent, inputs, out
 
             <div [hidden]="!showOptions" class="nxt-select-options">
                 <ng-content></ng-content>
-                <nxt-select-option *ngFor="let option of autocompleteResults" [value]="option.value">{{ option.label }}</nxt-select-option>
+                <nxt-select-option *ngFor="let option of autocompleteResults" [value]="option.value">
+                    <span class="ntx-select-option-label">{{ option.label }}</span>
+                    <span class="ntx-select-option-sub-label" *ngIf="option.subLabel !== ''">{{ option.subLabel }}</span>
+                </nxt-select-option>
             </div>
 
             <div class="error-msg" *ngIf="!valid && (touched || formSent)">{{errorMsg}}</div>
@@ -39,23 +49,26 @@ import { NxtFormComponent, NxtFormService, NxtSelectOptionComponent, inputs, out
 })
 
 export class NxtSelectComponent extends NxtFormComponent {
-    @Input() public label: string
+    @Input() public label: string = ''
 
     @Input() public autocomplete: boolean
-    @Input() public currentTextOption: string
     @Input() public placeholder: string = ''
+    @Input() public multiple: boolean = false
+    @Input() public currentTextOption: string = ''
+    @Output() public currentTextOptionChange: EventEmitter<string> =  new EventEmitter<string>()
     @Output() public autocompleteCallback: any = new EventEmitter<Observable<{}>>()
 
-    public autocompleteResults: INxtSelectAutocompleteResults[]
-    public showOptions: boolean
-    public loading: boolean
-    public currentOption: SafeHtml
+    public autocompleteResults: NxtSelectAutocompleteResults[]
+    public showOptions: boolean = false
+    public loading: boolean = false
+    public currentOption: SafeHtml = ''
+    public selectedTags: NxtSelectOptionComponent[] = []
 
-    private optionsList: NxtSelectOptionComponent[]
+    private optionsList: NxtSelectOptionComponent[] = []
 
-    private initialValue: string
-    private initialTextOption: string
-    private initialOption: SafeHtml
+    private initialValue: string = ''
+    private initialTextOption: string = ''
+    private initialOption: SafeHtml = ''
     private timeout: any
     private elementRef: ElementRef
 
@@ -65,16 +78,6 @@ export class NxtSelectComponent extends NxtFormComponent {
     ) {
         super(nxtFormService)
 
-        this.label = ''
-
-        this.initialValue = ''
-        this.initialTextOption = ''
-        this.initialOption = ''
-        this.showOptions = false
-        this.loading = false
-        this.currentTextOption = ''
-        this.currentOption = ''
-        this.optionsList = []
         this.elementRef = elementRef
     }
 
@@ -114,18 +117,30 @@ export class NxtSelectComponent extends NxtFormComponent {
         this.showOptions = false
 
         this.currentTextOption = ''
-        this.currentTextOption = option.textContent
         this.currentOption = ''
         this.currentOption = option.getInnerHTML()
         this.autocompleteResults = []
 
-        this.onChange(option.value)
+        if (this.multiple) {
+            if (!Array.isArray(this._value)) {
+                this._value = []
+            }
+
+            this.selectedTags = [ ...this.selectedTags, option ]
+
+            this.onChange([ ...this.selectedTags.map(t => t.value) ])
+        } else {
+            this.selectedTags = [ option ]
+            this.onChange(option.value)
+        }
     }
 
     public keyup (event) {
         let search = event.path !== undefined ? event.path[0].value : event.target.value
         this.showOptions = true
         this.loading = true
+
+        this.currentTextOptionChange.emit(search)
 
         this.nxtFormService.dispatch('cancelSearch')
         clearTimeout(this.timeout)
@@ -137,7 +152,7 @@ export class NxtSelectComponent extends NxtFormComponent {
             this.nxtFormService.unsubscribe('cancelSearch', event)
         })
 
-        let callback = (res: INxtSelectAutocompleteResults[]) => {
+        let callback = (res: NxtSelectAutocompleteResults[]) => {
             if (!cancelled) {
                 this.autocompleteResults = res
                 this.loading = false
@@ -160,12 +175,20 @@ export class NxtSelectComponent extends NxtFormComponent {
         }
     }
 
+    public removeTag (tag: any) {
+        this.selectedTags = [
+            ...this.selectedTags.filter(t => t !== tag),
+        ]
+
+        this.onChange(this.multiple ? this.selectedTags.map(o => o.value) : this.selectedTags.length > 0 ? this.selectedTags[0].value : '')
+    }
+
     public onClick (event) {
         let target = event.path !== undefined ? event.path[0] : event.target
         let selectDropdown = this.elementRef.nativeElement.querySelector('.nxt-select-dropdown') || this.elementRef.nativeElement.querySelector('.nxt-select-input-autocomplete')
         let selectOptions = this.elementRef.nativeElement.querySelector('.nxt-select-options')
 
-        if (!selectDropdown.contains(target) && !selectOptions.contains(target)) {
+        if (selectDropdown === null || (!selectDropdown.contains(target) && !selectOptions.contains(target))) {
             this.showOptions = false
         }
     }
@@ -192,7 +215,14 @@ export class NxtSelectComponent extends NxtFormComponent {
     }
 }
 
-export interface INxtSelectAutocompleteResults {
-    value: any
-    label: string
+export class NxtSelectAutocompleteResults {
+    public label: string
+    public subLabel: string
+    public value: any
+
+    constructor (label: string, subLabel: string, value: any) {
+        this.label = label
+        this.subLabel = subLabel
+        this.value = value
+    }
 }

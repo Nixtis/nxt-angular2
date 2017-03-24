@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
@@ -7,10 +8,13 @@ import { NxtAlertComponent } from './nxt-alert'
 import { NxtAnalyticsGoogleService } from './nxt-analytics'
 import { NxtApiService } from './nxt-api'
 import { NxtChartComponent } from './nxt-chart'
+import { NxtCountdownComponent } from './nxt-countdown'
+import { NxtDatepickerComponent } from './nxt-datepicker'
 import { NxtDynamicModuleService } from './nxt-dynamic-module/nxt-dynamic-module.service'
 import {
     NxtCheckboxComponent,
     NxtFileComponent,
+    NxtFormDirective,
     NxtFormService,
     NxtInputComponent,
     NxtRadioComponent,
@@ -21,7 +25,6 @@ import {
     NxtTextareaComponent,
 } from './nxt-form'
 import { NxtGamesComponent, NxtGamesOutletComponent, NxtSnakeComponent } from './nxt-games'
-import { NxtMapComponent, NxtMapService } from './nxt-map'
 import { NxtModalComponent, NxtModalService } from './nxt-modal'
 import { NxtOrderByPipe } from './nxt-pipes'
 import { NxtToastComponent, NxtToastContainerComponent, NxtToastService } from './nxt-toast'
@@ -32,11 +35,13 @@ export const components = [
     NxtAlertComponent,
     NxtChartComponent,
     NxtCheckboxComponent,
+    NxtCountdownComponent,
+    NxtDatepickerComponent,
     NxtFileComponent,
+    NxtFormDirective,
     NxtGamesComponent,
     NxtGamesOutletComponent,
     NxtInputComponent,
-    NxtMapComponent,
     NxtModalComponent,
     NxtOrderByPipe,
     NxtRadioComponent,
@@ -57,13 +62,12 @@ export const components = [
     declarations: components,
     entryComponents: [ NxtGamesComponent, NxtModalComponent, NxtSnakeComponent, NxtToastContainerComponent, NxtTooltipComponent ],
     exports: components,
-    imports: [ BrowserModule, FormsModule, HttpModule ],
+    imports: [ CommonModule, BrowserModule, FormsModule, HttpModule ],
     providers: [
         NxtAnalyticsGoogleService,
         NxtApiService,
         NxtDynamicModuleService,
         NxtFormService,
-        NxtMapService,
         NxtModalService,
         NxtToastService,
         NxtTooltipService,

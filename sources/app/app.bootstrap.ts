@@ -2,7 +2,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 
 import { AppActions, AppModule, appParams } from './'
 
-import { AppStore } from '../reducers'
+import { store } from '../reducers'
 
 export function Bootstrap () {
     let state = {
@@ -10,7 +10,7 @@ export function Bootstrap () {
         location: appParams.defaultLocation,
     }
 
-    AppStore.dispatch(AppActions.setAppState(state))
+    store.dispatch(AppActions.setAppState(state))
 
     platformBrowserDynamic().bootstrapModule(AppModule)
 }

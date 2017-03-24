@@ -10,6 +10,7 @@ import { NxtFormComponent, NxtFormService, NxtRadioItemComponent, inputs, output
     outputs,
     selector: 'nxt-radio',
     styles: [
+        require('../_nxt-form.component.scss'),
         require('./_nxt-radio.component.scss'),
     ],
     template: `
@@ -28,6 +29,7 @@ import { NxtFormComponent, NxtFormService, NxtRadioItemComponent, inputs, output
 export class NxtRadioComponent extends NxtFormComponent {
     @Input() public label: string
     private radios: NxtRadioItemComponent[]
+    private tempValue: any
 
     constructor (nxtFormService: NxtFormService) {
         super(nxtFormService)
@@ -40,11 +42,16 @@ export class NxtRadioComponent extends NxtFormComponent {
             this.radios = []
         }
 
-        if (this._value !== value) {
-            let radio = this.radios.filter(r => r.value === value)
+        this.tempValue = value
 
-            if (radio.length > 0) {
-                this.initChange(radio[0])
+        if (this._value !== value) {
+            let radio = this.radios.find(r => r.value === value)
+            this.radios.forEach(r => r.selected = false)
+
+            if (radio) {
+                this.initChange(radio)
+            } else {
+                this.onChange(null, this.touched)
             }
         }
     }
@@ -56,7 +63,7 @@ export class NxtRadioComponent extends NxtFormComponent {
     public addItem (item: NxtRadioItemComponent) {
         this.radios.push(item)
 
-        if (this.value === item.value) {
+        if (this._value === item.value || this.tempValue === item.value) {
             this.initChange(item)
         }
     }
@@ -76,7 +83,7 @@ export class NxtRadioComponent extends NxtFormComponent {
     }
 
     public reset () {
-        this.onChange('', false)
+        this.onChange(null, false)
 
         this.radios.forEach(radio => radio.selected = false)
     }

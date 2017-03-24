@@ -10,11 +10,12 @@ import { NxtTranslatePipe } from '../../nxt-translate'
     providers: [ NxtTranslatePipe ],
     selector: 'nxt-file',
     styles: [
+        require('../_nxt-form.component.scss'),
         require('./_nxt-file.component.scss'),
     ],
     template: `
         <div class="nxt-file-container" [ngClass]="{'error': !valid && (touched || formSent), 'disabled': disabled}">
-            <div class="label" *ngIf="label != ''">{{label}} <span class="nxt-textarea-required" *ngIf="required">*</span> :</div>
+            <div class="label" *ngIf="label != ''">{{label}} <span class="nxt-input-required" *ngIf="required">*</span> :</div>
 
             <ul>
                 <li *ngFor="let file of files; let i = index">
@@ -99,6 +100,16 @@ export class NxtFileComponent extends NxtFormComponent {
         function dragover (e) {
             e.preventDefault()
         }
+    }
+
+    set value (value: FileList) {
+        if (value && value !== this._value) {
+            this.handleFiles(value)
+        }
+    }
+
+    get value () {
+        return this._value
     }
 
     public initChange (event) {

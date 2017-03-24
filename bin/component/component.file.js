@@ -17,7 +17,7 @@ export class {{componentClassName}} {
     }
 
     public ngOnInit() {
-        this.appStore.dispatch(AppActions.setAppState({ loading: true }))
+        this.appStore.dispatch(AppActions.setAppState({ loading: false }))
     }
 }
 `

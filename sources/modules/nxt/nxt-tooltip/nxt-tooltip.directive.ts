@@ -14,8 +14,9 @@ export class NxtTooltipDirective {
     private el: HTMLElement
     private index: number
     private viewRootContainerRef: ViewContainerRef
-    private viewRef: ViewRef
+    private viewRef: ViewRef = null
     private nxtTooltipService: NxtTooltipService
+    private _hide: boolean = false
 
     constructor (
         el: ElementRef,
@@ -29,14 +30,37 @@ export class NxtTooltipDirective {
         this.index = 0
     }
 
+    @Input('nxtTooltipHide')
+    set hide (hide: boolean) {
+        this._hide = hide
+
+        if (hide) {
+            this.onMouseLeave()
+        }
+    }
+
+    get hide () {
+        return this._hide
+    }
+
     @HostListener('mouseenter') public onMouseEnter () {
-        this.nxtTooltipService.pop(this.viewRootContainerRef, this.content, this.el, this.position)
-            .then(viewRef => {
-                this.viewRef = viewRef
-            })
+        if (this.viewRef !== null) {
+            this.onMouseLeave()
+        }
+
+        if (!this._hide) {
+            this.nxtTooltipService.pop(this.viewRootContainerRef, this.content, this.el, this.position)
+                .then(viewRef => {
+                    this.viewRef = viewRef
+                })
+        }
     }
 
     @HostListener('mouseleave') public onMouseLeave () {
-        this.nxtTooltipService.close(this.viewRootContainerRef, this.viewRef)
+        if (this.viewRef !== null) {
+            this.nxtTooltipService.close(this.viewRootContainerRef, this.viewRef)
+
+            this.viewRef = null
+        }
     }
 }

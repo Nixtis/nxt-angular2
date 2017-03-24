@@ -3,7 +3,8 @@
     
     .nxt-radio-content {
         margin-top: 10px;
-
+        display: flex;
+        
         .nxt-radio-item-container {
             cursor: pointer;
             display: flex;
@@ -19,13 +20,15 @@
 
             &.selected {
                 .nxt-radio-item-button {
-                    background-color: black;
+                    background-color: #0051a8;
                 }
             }
 
             .label {
-                padding-top: 2px;
-                margin-left: 5px;
+                padding: 0px 5px;
+                margin: 0px 10px 0px 0px;
+                color: #05427f;
+                font-weight: bold;
             }
         }
     }

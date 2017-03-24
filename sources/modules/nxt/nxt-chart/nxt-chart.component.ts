@@ -208,8 +208,8 @@ export class NxtChartComponent implements OnChanges {
             .transition()
             .duration(1000)
             .tween('text', d => {
-                let i = d3.interpolate(0, d.value)
-                return (t) => {
+                let i = interpolate(0, d.value)
+                return function(t) {
                     select('text').text(Math.round(i(t)) + '%')
                 }
             })
@@ -238,7 +238,7 @@ export class NxtChartComponent implements OnChanges {
             .on('mouseover', function (d, i) {
                 self.popTooltip(i, this)
             })
-            .on('mouseout', (d, i) => {
+            .on('mouseout', function (d, i) {
                 self.closeTooltip()
             })
 

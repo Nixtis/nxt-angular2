@@ -1,6 +1,5 @@
-import 'core-js/client/shim.min.js'
-import 'reflect-metadata'
-import 'zone.js/dist/zone.js'
+import 'core-js'
+import 'zone.js/dist/zone'
 
 /**
  * Production mode

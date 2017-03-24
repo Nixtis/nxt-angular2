@@ -19,7 +19,7 @@
     }
 
     &.error {
-        label {
+        .label-container {
             input {
                 border-color: red;
             }
@@ -27,6 +27,53 @@
 
         .nxt-select-dropdown {
             border-color: red;
+        }
+    }
+
+    .label-container {
+        .nxt-select-autocomplete-container {
+            background-color: white;
+            border: 1px black solid;
+
+            .nxt-select-tag {
+                padding: 11px;
+                display: flex;
+
+                .nxt-select-tag-text {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: block;
+                    flex: 1;
+                }
+
+                .nxt-select-tag-delete {
+                    padding: 0px;
+                    border: none;
+                    background: none;
+                    outline: none;
+                }
+            }
+
+            &.multiple {
+                display: flex;
+                flex-flow: row wrap;
+
+                .nxt-select-tag {
+                    max-width: 100px;
+                }
+
+                .nxt-select-input-autocomplete {
+                    min-width: 150px;
+                    flex: 1;
+                }
+            }
+
+            .nxt-select-input-autocomplete {
+                background: none;
+                border: none;
+                outline: none;
+            }
         }
     }
 
@@ -63,6 +110,16 @@
             cursor: pointer;
             border-bottom: 1px solid black;
             white-space: nowrap;
+
+            .ntx-select-option-label {
+                display: block;
+                font-weight: bold;
+            }
+
+            .ntx-select-option-sub-label {
+                display: block;
+                font-style: italic;
+            }
 
             &:hover {
                 background-color: black;

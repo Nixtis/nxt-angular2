@@ -10,14 +10,15 @@ import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
     outputs,
     selector: 'nxt-checkbox',
     styles: [
+        require('../_nxt-form.component.scss'),
         require('./_nxt-checkbox.component.scss'),
     ],
     template: `
         <div class="nxt-checkbox-container" [ngClass]="{ 'error': !valid && (touched || formSent), 'disabled': disabled }">
-            <label (click)="initChange()" [ngClass]="{ 'checked': value }">
+            <div class="nxt-checkbox-content" (click)="initChange()" [ngClass]="{ 'checked': value }">
                 <button type="button" class="nxt-checkbox-item-button"></button>
-                <div class="label" *ngIf="label != ''">{{label}} <span class="nxt-input-required" *ngIf="required">*</span> :</div>
-            </label>
+                <div class="label" *ngIf="label != ''">{{label}} <span class="nxt-input-required" *ngIf="required">*</span></div>
+            </div>
 
             <div class="error-msg" *ngIf="!valid && (touched || formSent)">{{errorMsg}}</div>
         </div>
@@ -45,6 +46,6 @@ export class NxtCheckboxComponent extends NxtFormComponent {
     }
 
     public isValid (): boolean {
-        return (this.required && this.valid) || (!this.required)
+        return (this.required && this.value) || (!this.required)
     }
 }

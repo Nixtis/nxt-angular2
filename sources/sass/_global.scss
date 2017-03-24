@@ -13,6 +13,12 @@ body {
         cursor: pointer;
     }
 
+    @media print {
+        .no-print, .no-print * {
+            display: none !important;
+        }
+    }
+
     /* Helpers */
     .text-center {
         text-align: center;

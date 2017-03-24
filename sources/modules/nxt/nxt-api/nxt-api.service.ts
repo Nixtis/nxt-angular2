@@ -113,6 +113,32 @@ export class NxtApiService {
             })
     }
 
+    public patch (url: Url, body: any): Promise<any> {
+        return this.authorizationHeader()
+            .then(headersObj => {
+                let headers = new Headers(Object.assign({}, headersObj, { 'Content-Type': 'application/json' }))
+                let options = new RequestOptions({ headers })
+
+                return this.http
+                    .patch(url.getUrl(), JSON.stringify(body), options)
+                    .toPromise()
+                    .then(this.extractData)
+            })
+    }
+
+    public delete (url: Url): Promise<any> {
+        return this.authorizationHeader()
+            .then(headersObj => {
+                let headers = new Headers(Object.assign({}, headersObj, { 'Content-Type': 'application/json' }))
+                let options = new RequestOptions({ headers })
+
+                return this.http
+                    .delete(url.getUrl(), options)
+                    .toPromise()
+                    .then(this.extractData)
+            })
+    }
+
     public uploadFile (url: Url, formData: FormData) {
         return this.authorizationHeader()
             .then(headersObj => {
@@ -209,7 +235,7 @@ export class NxtApiService {
         tokenExpires.setTime(tokenExpires.getTime() + (response.expires_in * 1000))
 
         let refreshExpires = new Date()
-        refreshExpires.setTime(refreshExpires.getTime() + (1000 * 24 * 14))
+        refreshExpires.setTime(refreshExpires.getTime() + (1000 * 3600 * 24 * 14))
 
         let accessToken = {
             access_token: response.access_token,
@@ -239,7 +265,6 @@ export class NxtApiService {
                 })
             } else if (refreshExpires > now) {
                 return this.oauthRefreshToken(accessToken.refresh_token)
-                    .then(this.extractAccessToken)
                     .then(response => {
                         return { Authorization: `Bearer ${response.access_token}` }
                     })
