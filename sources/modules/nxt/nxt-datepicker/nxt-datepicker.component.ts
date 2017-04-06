@@ -70,6 +70,26 @@ export class NxtDatepickerComponent {
         this.refreshMonth()
     }
 
+    public prevMonth () {
+        const m = this.month > 0 ? this.month - 1 : this.month = 11
+
+        this.selectMonth(m)
+    }
+
+    public nextMonth () {
+        const m = this.month < 11 ? this.month + 1 : this.month = 0
+
+        this.selectMonth(m)
+    }
+
+    public prevYear () {
+        this.selectYear(this.year - 1)
+    }
+
+    public nextYear () {
+        this.selectYear(this.year + 1)
+    }
+
     public selectDate (day, month) {
         let date = new Date()
         date.setDate(day)

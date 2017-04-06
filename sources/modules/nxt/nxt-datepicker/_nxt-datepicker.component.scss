@@ -4,6 +4,10 @@ label {
     padding-bottom: 0px;
 }
 
+button {
+    border: none;
+}
+
 .wrapper {
     display: block;
     position: relative;
@@ -61,6 +65,14 @@ label {
                 .year-month {
                     flex: 1;
                     position: relative;
+
+                    &.left-right {
+                        flex: 0;
+
+                        button {
+                            padding: 0 10px;
+                        }
+                    }
 
                     .title {
                         background-color: black;
