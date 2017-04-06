@@ -13,7 +13,6 @@ import { APP_ROUTER_PROVIDER, routing } from './app.routes'
 
 /// COMPONENTS IMPORTATION START
 import * as Home from '../components/home'
-import * as Test from '../components/test'
 /// COMPONENTS IMPORTATION END
 
 let appStore: ValueProvider = { provide: 'AppStore', useValue: store }
@@ -21,9 +20,6 @@ let appStore: ValueProvider = { provide: 'AppStore', useValue: store }
 /// COMPONENTS DEFINITION START
 const components: any[] = [
     Home.HomeComponent,
-    Test.TestComponent,
-    Test.FooComponent,
-    Test.BarComponent,
 ]
 /// COMPONENTS DEFINITION END
 

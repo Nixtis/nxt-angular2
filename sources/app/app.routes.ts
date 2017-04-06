@@ -6,19 +6,11 @@ import {
     HOME_ROUTE_PROVIDERS,
     homeRoute,
 } from '../components/home/home.routes'
-
-import {
-    testRoute,
-    fooRoute,
-    TEST_ROUTE_PROVIDERS,
-    barRoute,
-} from '../components/test/test.routes'
 /// ROUTE IMPORTATION END
 
 /// APP ROUTER EXPORTATION START
 export const APP_ROUTER_PROVIDER: any[] = [
     HOME_ROUTE_PROVIDERS,
-    TEST_ROUTE_PROVIDERS,
 ]
 /// APP ROUTER EXPORTATION END
 
@@ -30,9 +22,6 @@ const routes: Routes = [
         redirectTo: '/home',
     },
     homeRoute,
-    testRoute,
-    fooRoute,
-    barRoute,
 ]
 /// ROUTES DEFINITION END
 
