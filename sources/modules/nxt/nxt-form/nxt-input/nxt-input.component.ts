@@ -18,7 +18,7 @@ import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
                 <div [ngSwitch]="type">
                     <input *ngSwitchCase="'email'" type="email" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
                     <input *ngSwitchCase="'phone'" type="phone" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
-                    <input *ngSwitchCase="'number'" type="number" [min]="min" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
+                    <input *ngSwitchCase="'number'" lang="en" type="number" [min]="min" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
                     <input *ngSwitchCase="'password'" type="password" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
                     <input *ngSwitchCase="'text'" type="text" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled"/>
                     <input *ngSwitchCase="'date'" type="date" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled"/>
