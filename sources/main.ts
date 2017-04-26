@@ -5,7 +5,7 @@ import 'zone.js/dist/zone'
  * Production mode
  */
 import { enableProdMode } from '@angular/core'
-if (process.env.NODE_ENV === 'production' && process.env.NODE_ENV === 'maintenance') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'maintenance') {
     enableProdMode()
 }
 
