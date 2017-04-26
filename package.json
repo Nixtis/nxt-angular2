@@ -5,6 +5,7 @@
   "main": "./sources/main.js",
   "scripts": {
     "build": "node build/build.js",
+    "maintenance": "node build/build.js maintenance",
     "start": "node build/dev.js",
     "test": "karma start karma.conf.js"
   },

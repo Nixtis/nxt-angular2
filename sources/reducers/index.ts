@@ -4,7 +4,7 @@ import { appReducer } from '../app/app.reducer'
 
 let appStore
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'maintenance') {
     appStore = createStore(combineReducers({
         appState: appReducer,
     }))
