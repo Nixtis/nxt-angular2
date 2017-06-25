@@ -11,7 +11,6 @@
          * Any rules specified here will override those from the base config we are extending
          */
         "quotemark": [ true, "single" ],
-        "no-constructor-vars": true,
         "no-unused-variable": true,
         "semicolon": [ true, "never" ],
         "max-line-length": [ false ],
