@@ -1,12 +1,12 @@
 var path = require('path')
 var root = path.resolve(__dirname, '../')
 var autoprefixer = require('autoprefixer')
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     context: path.join(__dirname, '../sources'),
     resolve: {
-        extensions: ['', '.ts', '.js']
+        extensions: ['.ts', '.js']
     },
     entry: {
         app: ['./main.ts']
@@ -17,54 +17,64 @@ module.exports = {
         publicPath: '/dist/'
     },
     module: {
-        preLoaders: [
+        rules: [
             {
                 test: /\.ts$/,
-                loader: 'tslint',
-                exclude: /(node_modules|bower_components|libraries|typings)/
-            }
-        ],
-        loaders: [
+                enforce: 'pre',
+                loader: 'tslint-loader',
+                exclude: /(node_modules|bower_components|libraries|typings)/,
+                options: {
+                    configFile: path.resolve(root, './tslint.json')
+                }
+            },
             {
                 test: /sass\/.+\.scss|sass\\.+\.scss$/,
-                loader: ExtractTextPlugin.extract(['css', 'sass'])
+                loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
             },
             {
                 test: /\.component\.scss$/,
-                loaders: ['raw', 'sass']
+                use: [
+                    'raw-loader',
+                    'sass-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true,
+                            plugins: () => [ autoprefixer({browsers: ['last 2 versions']}) ],
+                        },
+                    },
+                ],
             },
             {
                 test: /\.(css|html)$/,
-                loader: 'raw'
+                loader: 'raw-loader'
             },
             {
                 test: /\.ts$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'ts',
+                loader: 'ts-loader',
                 include: root
             },
             {
                 test: '/\.(png|jpg|gif)$/',
-                loader: 'url',
-                query: {
-                    limit: 10000,
-                    name: '../img/[name]-[hash:7].[ext]'
-                }
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10000,
+                            name: '../img/[name]-[hash:7].[ext]'
+                        }
+                    }
+                ],
             },
-            { test: /\.svg(\?.*$|$)/, loader: 'url?limit=65000&mimetype=image/svg+xml&name=../fonts/[name].[ext]' },
-            { test: /\.woff(\?.*$|$)/, loader: 'url?limit=65000&mimetype=application/font-woff&name=../fonts/[name].[ext]' },
-            { test: /\.woff2(\?.*$|$)/, loader: 'url?limit=65000&mimetype=application/font-woff2&name=../fonts/[name].[ext]' },
-            { test: /\.[ot]tf(\?.*$|$)/, loader: 'url?limit=65000&mimetype=application/octet-stream&name=../fonts/[name].[ext]' },
-            { test: /\.eot(\?.*$|$)/, loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=../fonts/[name].[ext]' }
+            { test: /\.svg(\?.*$|$)/, loader: 'url-loader?limit=65000&mimetype=image/svg+xml&name=../fonts/[name].[ext]' },
+            { test: /\.woff(\?.*$|$)/, loader: 'url-loader?limit=65000&mimetype=application/font-woff&name=../fonts/[name].[ext]' },
+            { test: /\.woff2(\?.*$|$)/, loader: 'url-loader?limit=65000&mimetype=application/font-woff2&name=../fonts/[name].[ext]' },
+            { test: /\.[ot]tf(\?.*$|$)/, loader: 'url-loader?limit=65000&mimetype=application/octet-stream&name=../fonts/[name].[ext]' },
+            { test: /\.eot(\?.*$|$)/, loader: 'url-loader?limit=65000&mimetype=application/vnd.ms-fontobject&name=../fonts/[name].[ext]' }
         ]
     },
     plugins: [
         new ExtractTextPlugin('screen.css')
     ],
-    tslint: {
-        configFile: path.resolve(root, './tslint.json')
-    },
-    postcss: function () {
-        return [autoprefixer({browser: ['last 2 versions']})]
-    }
 }

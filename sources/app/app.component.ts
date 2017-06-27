@@ -1,5 +1,5 @@
 import { Component, ComponentFactoryResolver, Inject, ReflectiveInjector, ViewContainerRef } from '@angular/core'
-import { select } from 'ng2-redux'
+import { select } from '@angular-redux/store'
 import { Observable } from 'rxjs/Rx'
 
 import { NxtAnalyticsGoogleService } from '../modules/nxt/nxt-analytics'

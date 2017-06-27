@@ -8,6 +8,7 @@ import { AppActions } from '{{appPath}}'
 })
 
 export class {{componentClassName}} {
+
     private appStore
 
     constructor (
@@ -16,8 +17,9 @@ export class {{componentClassName}} {
         this.appStore = appStore
     }
 
-    public ngOnInit() {
+    public ngOnInit () {
         this.appStore.dispatch(AppActions.setAppState({ loading: false }))
     }
+
 }
 `

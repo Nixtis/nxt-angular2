@@ -1,7 +1,7 @@
 import { NgModule, ValueProvider } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
-import { NgRedux, NgReduxModule } from 'ng2-redux'
+import { NgRedux, NgReduxModule } from '@angular-redux/store'
 
 import { NxtModule } from '../modules/nxt/nxt.module'
 import { store } from '../reducers'

@@ -19,7 +19,6 @@ var server = new WebpackDevServer(compiler, {
     hot: true,
     contentBase: './sources',
     historyApiFallback: true,
-    outputPath: './sources',
     quiet: false,
     noInfo: false,
     publicPath: webpackConfig.output.publicPath,
