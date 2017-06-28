@@ -52,8 +52,11 @@ module.exports = {
             {
                 test: /\.ts$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'ts-loader',
-                include: root
+                loader: 'awesome-typescript-loader',
+                options: {
+                    configFileName: path.resolve(root, './tsconfig.json'),
+                    useCache: true,
+                },
             },
             {
                 test: '/\.(png|jpg|gif)$/',

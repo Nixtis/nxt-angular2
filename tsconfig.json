@@ -9,11 +9,8 @@
         "experimentalDecorators": true,
         "removeComments": false,
         "noImplicitAny": false,
-        "types": [
-            "core-js",
-            "d3",
-            "jasmine",
-            "node"
+        "typeRoots": [
+            "./node_modules/@types"
         ]
     }
 }

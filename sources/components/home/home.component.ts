@@ -15,7 +15,7 @@ export class HomeComponent {
     private appStore
 
     constructor (
-        @Inject('AppStore') appStore
+        @Inject('AppStore') appStore,
     ) {
         this.appStore = appStore
     }

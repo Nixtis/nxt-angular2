@@ -21,6 +21,7 @@
         "only-arrow-functions": [
             false
         ],
+        "space-before-function-paren": true,
         "variable-name": [
             true,
             "check-format",
