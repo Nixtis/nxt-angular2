@@ -1,5 +1,5 @@
 import { select } from '@angular-redux/store'
-import { Component, ComponentFactoryResolver, Inject, ReflectiveInjector, ViewContainerRef } from '@angular/core'
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, Inject, ReflectiveInjector, ViewContainerRef } from '@angular/core'
 import { Observable } from 'rxjs/Rx'
 
 import { NxtAnalyticsGoogleService } from '../modules/nxt/nxt-analytics'
@@ -17,12 +17,13 @@ import '../sass/screen.scss'
 })
 
 export class AppComponent {
-    public loading: boolean
+    public loading: boolean = true
     public viewContainerRef: ViewContainerRef
 
     private componentResolver: ComponentFactoryResolver
     private nxtTranslateService: NxtTranslateService
     private nxtAnalyticsGoogleService: NxtAnalyticsGoogleService
+    private changeDetectorRef: ChangeDetectorRef
 
     // Redux
     @select((state) => state.appState) private appState$: Observable<any>
@@ -34,12 +35,13 @@ export class AppComponent {
         @Inject('AppStore') appStore,
         componentResolver: ComponentFactoryResolver,
         nxtAnalyticsGoogleService: NxtAnalyticsGoogleService,
+        changeDetectorRef: ChangeDetectorRef,
     ) {
-        this.loading = true
         this.viewContainerRef = viewContainerRef
 
         this.nxtTranslateService = nxtTranslateService
         this.nxtAnalyticsGoogleService = nxtAnalyticsGoogleService
+        this.changeDetectorRef = changeDetectorRef
 
         this.appStore = appStore
         this.componentResolver = componentResolver
@@ -56,11 +58,12 @@ export class AppComponent {
             if (appState.location !== this.nxtTranslateService.getCurrentLanguage()) {
                 this.nxtTranslateService.setLanguage(appState.location)
                 this.nxtTranslateService.setTranslateContents()
-                    .then((res) => this.appStore.dispatch(AppActions.setAppState({ loading: false })))
+                    .then((res) => this.appStore.dispatch(AppActions.setLoading(false)))
             }
 
             if (appState.loading !== this.loading) {
                 this.loading = appState.loading
+                this.changeDetectorRef.detectChanges()
             }
         })
 
