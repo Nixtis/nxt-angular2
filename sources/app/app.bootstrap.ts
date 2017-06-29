@@ -7,12 +7,7 @@ import { MaintenanceModule } from './maintenance.module'
 import { store } from '../reducers'
 
 export function Bootstrap () {
-    const state = {
-        loading: true,
-        location: appParams.defaultLocation,
-    }
-
-    store.dispatch(AppActions.setAppState(state))
+    store.dispatch(AppActions.setLocation(appParams.defaultLocation))
 
     if (process.env.NODE_ENV === 'maintenance') {
         platformBrowserDynamic().bootstrapModule(MaintenanceModule)

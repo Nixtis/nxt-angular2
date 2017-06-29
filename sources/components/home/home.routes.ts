@@ -14,7 +14,7 @@ export class HomeResolver implements CanActivate {
     }
 
     public canActivate (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        this.appStore.dispatch(AppActions.setAppState({ loading: true }))
+        this.appStore.dispatch(AppActions.setLoading(true))
 
         return true
     }

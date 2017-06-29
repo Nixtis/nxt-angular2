@@ -1,10 +1,18 @@
 export class AppActions {
-    public static SET_APP_STATE: string = 'SET_APP_STATE'
+    public static SET_LOADING: string = 'SET_LOADING'
+    public static SET_LOCATION: string = 'SET_LOCATION'
 
-    public static setAppState (state: any) {
+    public static setLoading (loading: boolean) {
         return {
-            state,
-            type: AppActions.SET_APP_STATE,
+            loading,
+            type: AppActions.SET_LOADING,
+        }
+    }
+
+    public static setLocation (location: string) {
+        return {
+            location,
+            type: AppActions.SET_LOCATION,
         }
     }
 }

@@ -27,7 +27,7 @@ export class MaintenanceComponent {
     }
 
     public ngOnInit () {
-        this.appStore.dispatch(AppActions.setAppState({ loading: false }))
+        this.appStore.dispatch(AppActions.setLoading(false))
     }
 
 }
