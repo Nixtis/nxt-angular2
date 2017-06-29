@@ -15,7 +15,7 @@ import { inputs, NxtFormComponent, NxtFormService, outputs } from '../'
         <div class="nxt-input-container" [ngClass]="{'error': !valid && (touched || formSent), 'disabled': disabled}">
             <label>
                 <div class="label" *ngIf="label != ''">{{label}} <span class="nxt-input-required" *ngIf="required">*</span> :</div>
-                <div [ngSwitch]="type">
+                <div class="nxt-input-field-container" [ngSwitch]="type">
                     <input *ngSwitchCase="'email'" type="email" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
                     <input *ngSwitchCase="'phone'" type="phone" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
                     <input *ngSwitchCase="'number'" lang="en" type="number" [min]="min" [name]="name" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="initChange($event)" [required]="required" [disabled]="disabled" />
