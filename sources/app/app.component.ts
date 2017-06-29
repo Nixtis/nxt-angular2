@@ -1,5 +1,5 @@
-import { Component, ComponentFactoryResolver, Inject, ReflectiveInjector, ViewContainerRef } from '@angular/core'
 import { select } from '@angular-redux/store'
+import { Component, ComponentFactoryResolver, Inject, ReflectiveInjector, ViewContainerRef } from '@angular/core'
 import { Observable } from 'rxjs/Rx'
 
 import { NxtAnalyticsGoogleService } from '../modules/nxt/nxt-analytics'
@@ -25,7 +25,7 @@ export class AppComponent {
     private nxtAnalyticsGoogleService: NxtAnalyticsGoogleService
 
     // Redux
-    @select(state => state.appState) private appState$: Observable<any>
+    @select((state) => state.appState) private appState$: Observable<any>
     private appStore
 
     constructor (
@@ -33,7 +33,7 @@ export class AppComponent {
         nxtTranslateService: NxtTranslateService,
         @Inject('AppStore') appStore,
         componentResolver: ComponentFactoryResolver,
-        nxtAnalyticsGoogleService: NxtAnalyticsGoogleService
+        nxtAnalyticsGoogleService: NxtAnalyticsGoogleService,
     ) {
         this.loading = true
         this.viewContainerRef = viewContainerRef
@@ -52,11 +52,11 @@ export class AppComponent {
             this.nxtAnalyticsGoogleService.init(appConfig.ga.key)
         }
 
-        this.appState$.subscribe(appState => {
+        this.appState$.subscribe((appState) => {
             if (appState.location !== this.nxtTranslateService.getCurrentLanguage()) {
                 this.nxtTranslateService.setLanguage(appState.location)
                 this.nxtTranslateService.setTranslateContents()
-                    .then(res => this.appStore.dispatch(AppActions.setAppState({ loading: false })))
+                    .then((res) => this.appStore.dispatch(AppActions.setAppState({ loading: false })))
             }
 
             if (appState.loading !== this.loading) {
@@ -64,12 +64,12 @@ export class AppComponent {
             }
         })
 
-        let konami: number[] = [ 38, 38, 40, 40, 37, 39, 37, 39, 66, 65 ]
+        const konami: number[] = [ 38, 38, 40, 40, 37, 39, 37, 39, 66, 65 ]
         let n: number = 0
-        document.addEventListener('keyup', e => {
+        document.addEventListener('keyup', (e) => {
             if (e.keyCode === konami[n++]) {
                 if (n === konami.length) {
-                    let games = this.componentResolver.resolveComponentFactory(NxtGamesComponent)
+                    const games = this.componentResolver.resolveComponentFactory(NxtGamesComponent)
                     const childInjector = ReflectiveInjector.resolve([ { provide: 'viewContainerRef', useValue: this.viewContainerRef } ])
                     const injector = ReflectiveInjector.fromResolvedProviders(childInjector, this.viewContainerRef.injector)
 

@@ -25,7 +25,7 @@ export class NxtTooltipComponent {
         @Inject(HTMLElement) parentElement: HTMLElement,
         @Inject('content') content: string,
         @Inject('position') position: string,
-        tooltipElement: ElementRef
+        tooltipElement: ElementRef,
     ) {
         this.parentElement = parentElement
 
@@ -66,10 +66,10 @@ export class NxtTooltipComponent {
     }
 
     private getMiddlePosition (): ITooltipPosition {
-        let parentPosition: ClientRect = this.parentElement.getBoundingClientRect()
+        const parentPosition: ClientRect = this.parentElement.getBoundingClientRect()
 
-        let x: number = parentPosition.left + (parentPosition.width / 2)
-        let y: number = parentPosition.top + (parentPosition.height / 2)
+        const x: number = parentPosition.left + (parentPosition.width / 2)
+        const y: number = parentPosition.top + (parentPosition.height / 2)
 
         return {
             translateX: '-50%',
@@ -80,10 +80,10 @@ export class NxtTooltipComponent {
     }
 
     private getTopPosition (): ITooltipPosition {
-        let parentPosition = this.parentElement.getBoundingClientRect()
+        const parentPosition = this.parentElement.getBoundingClientRect()
 
-        let x: number = parentPosition.left + (parentPosition.width / 2)
-        let y: number = document.documentElement.scrollTop ? parentPosition.top + document.documentElement.scrollTop : parentPosition.top + document.body.scrollTop
+        const x: number = parentPosition.left + (parentPosition.width / 2)
+        const y: number = document.documentElement.scrollTop ? parentPosition.top + document.documentElement.scrollTop : parentPosition.top + document.body.scrollTop
 
         return {
             translateX: '-50%',
@@ -94,10 +94,10 @@ export class NxtTooltipComponent {
     }
 
     private getBottomPosition (): ITooltipPosition {
-        let parentPosition = this.parentElement.getBoundingClientRect()
+        const parentPosition = this.parentElement.getBoundingClientRect()
 
-        let x: number = parentPosition.left + (parentPosition.width / 2)
-        let y: number = parentPosition.top + parentPosition.height
+        const x: number = parentPosition.left + (parentPosition.width / 2)
+        const y: number = parentPosition.top + parentPosition.height
 
         return {
             translateX: '-50%',
@@ -108,10 +108,10 @@ export class NxtTooltipComponent {
     }
 
     private getLeftPosition (): ITooltipPosition {
-        let parentPosition = this.parentElement.getBoundingClientRect()
+        const parentPosition = this.parentElement.getBoundingClientRect()
 
-        let x: number = parentPosition.left
-        let y: number = parentPosition.top + (parentPosition.height / 2)
+        const x: number = parentPosition.left
+        const y: number = parentPosition.top + (parentPosition.height / 2)
 
         return {
             translateX: '-109%',
@@ -122,10 +122,10 @@ export class NxtTooltipComponent {
     }
 
     private getRightPosition (): ITooltipPosition {
-        let parentPosition = this.parentElement.getBoundingClientRect()
+        const parentPosition = this.parentElement.getBoundingClientRect()
 
-        let x: number = parentPosition.right
-        let y: number = parentPosition.top + (parentPosition.height / 2)
+        const x: number = parentPosition.right
+        const y: number = parentPosition.top + (parentPosition.height / 2)
 
         return {
             translateX: '10%',

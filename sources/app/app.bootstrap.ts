@@ -7,7 +7,7 @@ import { MaintenanceModule } from './maintenance.module'
 import { store } from '../reducers'
 
 export function Bootstrap () {
-    let state = {
+    const state = {
         loading: true,
         location: appParams.defaultLocation,
     }

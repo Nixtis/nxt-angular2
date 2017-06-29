@@ -5,17 +5,17 @@ export * from './interfaces'
 
 export function numberFormat (nb, decimals, decPoint, thousandsSep) {
     nb = (nb + '').replace(/[^0-9+\-Ee.]/g, '')
-    let n = !isFinite(+nb) ? 0 : + nb
-    let prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
-    let sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
-    let dec = (typeof decPoint === 'undefined') ? '.' : decPoint
-    let toFixedFix = (nu, pr) => {
-        let k = Math.pow(10, pr)
+    const n = !isFinite(+nb) ? 0 : + nb
+    const prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
+    const sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
+    const dec = (typeof decPoint === 'undefined') ? '.' : decPoint
+    const toFixedFix = (nu, pr) => {
+        const k = Math.pow(10, pr)
         return '' + Math.round(nu * k) / k
     }
 
     // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-    let sA = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.')
+    const sA = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.')
     if (sA[0].length > 3) {
         sA[0] = sA[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)
     }
@@ -36,7 +36,7 @@ export function numberFormat (nb, decimals, decPoint, thousandsSep) {
 export function createCookie (name, value, days) {
     let expires = ''
     if (days) {
-        let date = new Date()
+        const date = new Date()
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
         expires = ';expires= ' + date.toUTCString()
     }
@@ -60,11 +60,11 @@ export function deleteCookie (name) {
  * @return {any}
  */
 export function getCookie (name): any {
-    let cookies = document.cookie.split(';')
+    const cookies = document.cookie.split(';')
     let value = false
 
     cookies.forEach((val, key) => {
-        let pair = val.trim().split('=')
+        const pair = val.trim().split('=')
 
         if (pair[0] === name) {
             value = JSON.parse(decodeURIComponent(pair[1]))
@@ -76,7 +76,7 @@ export function getCookie (name): any {
 
 export function ucFirst (str: string) {
     str += ''
-    let f = str.charAt(0).toUpperCase()
+    const f = str.charAt(0).toUpperCase()
 
     return f + str.substr(1)
 }

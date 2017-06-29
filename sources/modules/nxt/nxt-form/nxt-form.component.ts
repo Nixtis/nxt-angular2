@@ -99,7 +99,7 @@ export abstract class NxtFormComponent {
         this.nxtFormService.on(this, 'reset', () => this.reset())
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy () {
         this.nxtFormService.unsubscribe('reset', this)
         this.nxtFormService.dispatch('updateStateForm', this.name, this.value, true)
     }

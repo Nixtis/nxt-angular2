@@ -26,12 +26,12 @@ export class NxtToastContainerComponent {
         })
 
         nxtToastService.on(this, 'remove', (id: number) => {
-            this.toastList = this.toastList.filter(t => t.id !== id)
+            this.toastList = this.toastList.filter((t) => t.id !== id)
         })
     }
 
     private addToast (content: string, duration: number = 5000, className: string = '') {
-        let id = this.toastList.reduce((p, c) => p < c.id ? c.id : p, 0) + 1
+        const id = this.toastList.reduce((p, c) => p < c.id ? c.id : p, 0) + 1
 
         this.toastList.push({ className, content, duration, id })
     }

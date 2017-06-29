@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core'
 
-import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
+import { inputs, NxtFormComponent, NxtFormService, outputs } from '../'
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -40,7 +40,7 @@ export class NxtInputComponent extends NxtFormComponent {
     public touched: boolean
 
     constructor (
-        nxtFormService: NxtFormService
+        nxtFormService: NxtFormService,
     ) {
         super(nxtFormService)
 
@@ -83,11 +83,7 @@ export class NxtInputComponent extends NxtFormComponent {
             case 'password':
             case 'text':
             default:
-                if (this.required) {
-                    regex = /.+/i
-                } else {
-                    regex = /.*/i
-                }
+                regex = (this.required) ? /.+/i : /.*/i
         }
 
         return this.required ? regex.test(this.value) && this.value !== null : regex.test(this.value)

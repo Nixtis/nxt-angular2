@@ -44,7 +44,7 @@ export class NxtModalComponent {
         @Inject(EventsService) eventsService: EventsService,
         @Inject('viewContainerRef') viewContainerRef: ViewContainerRef,
         elementRef: ElementRef,
-        componentResolver: ComponentFactoryResolver
+        componentResolver: ComponentFactoryResolver,
     ) {
         this.title = title
         this.content = content
@@ -71,7 +71,7 @@ export class NxtModalComponent {
 
         const index = this.nxtModalContent.length
 
-        let content = this.componentResolver.resolveComponentFactory(this.content)
+        const content = this.componentResolver.resolveComponentFactory(this.content)
         const providers: ValueProvider[] = [
             { provide: 'context', useValue: this.context },
             { provide: 'ViewRefModal', useValue: this.viewRef },
@@ -88,7 +88,7 @@ export class NxtModalComponent {
     }
 
     public close () {
-        let index = this.viewContainerRef.indexOf(this.viewRef)
+        const index = this.viewContainerRef.indexOf(this.viewRef)
         this.viewContainerRef.remove(index)
     }
 }

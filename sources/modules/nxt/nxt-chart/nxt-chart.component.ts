@@ -26,7 +26,7 @@ export class NxtChartComponent implements OnChanges {
     constructor (
         applicationRef: ApplicationRef,
         injector: Injector,
-        nxtTooltipService: NxtTooltipService
+        nxtTooltipService: NxtTooltipService,
     ) {
         this.type = 'rectangles'
         this.data = []
@@ -60,9 +60,9 @@ export class NxtChartComponent implements OnChanges {
     }
 
     private setArcs () {
-        let self = this
-        let size: number = 150
-        let rules = this.getArcsRules()
+        const self = this
+        const size: number = 150
+        const rules = this.getArcsRules()
         let current = {
             endAngle: 0,
             startAngle: 0,
@@ -70,10 +70,10 @@ export class NxtChartComponent implements OnChanges {
 
         this.d3Container.selectAll('path').remove()
 
-        let arcs = this.d3Container.selectAll('path')
-            .data(rules.pie(this.data.map(d => d.value)))
+        const arcs = this.d3Container.selectAll('path')
+            .data(rules.pie(this.data.map((d) => d.value)))
 
-        let g = arcs
+        const g = arcs
             .enter()
             .append('g')
             .attr('transform', `translate(${size}, ${size})`)
@@ -81,20 +81,20 @@ export class NxtChartComponent implements OnChanges {
         g
             .append('path')
             .attr('fill', (d, i) => rules.color('' + i))
-            .each(d => current = d)
+            .each((d) => current = d)
             .transition()
             .duration(1000)
-            .attrTween('d', d => {
+            .attrTween('d', (d) => {
                 d.startAngle += 0.01
-                let interStart = interpolate(current.startAngle, d.startAngle)
-                let interEnd = interpolate(current.endAngle, d.endAngle)
+                const interStart = interpolate(current.startAngle, d.startAngle)
+                const interEnd = interpolate(current.endAngle, d.endAngle)
 
                 current.startAngle = interStart(0)
                 current.endAngle = interEnd(0)
 
-                return t => {
-                    let start = interStart(t)
-                    let end = interEnd(t)
+                return (t) => {
+                    const start = interStart(t)
+                    const end = interEnd(t)
 
                     d.startAngle = start
                     d.endAngle = end
@@ -108,10 +108,10 @@ export class NxtChartComponent implements OnChanges {
             .attr('d', rules.arc)
             .attr('fill-opacity', '0')
             .on('mouseover', function (d, i) {
-                let median = d.startAngle + ((d.endAngle - d.startAngle) / 2)
-                let quarter = Math.PI / 2
-                let half = Math.PI
-                let threeQuarter = 3 * Math.PI / 2
+                const median = d.startAngle + ((d.endAngle - d.startAngle) / 2)
+                const quarter = Math.PI / 2
+                const half = Math.PI
+                const threeQuarter = 3 * Math.PI / 2
                 let x = 0
                 let y = 0
 
@@ -132,8 +132,8 @@ export class NxtChartComponent implements OnChanges {
                 x /= quarter
                 y /= quarter
 
-                let left = 10 * x
-                let top = 10 * y
+                const left = 10 * x
+                const top = 10 * y
 
                 select(this.previousSibling).attr('transform', `translate(${left}, ${top})`)
 
@@ -147,17 +147,17 @@ export class NxtChartComponent implements OnChanges {
     }
 
     private getArcsRules () {
-        let r = 130
+        const r = 130
 
-        let arc = svg.arc()
+        const arc = svg.arc()
             .innerRadius(r - 75)
             .outerRadius(r)
 
-        let color = scale.ordinal()
-            .range(this.data.map(d => d.color))
+        const color = scale.ordinal()
+            .range(this.data.map((d) => d.color))
             .domain(this.data.map((d, i) => '' + i))
 
-        let pie = layout.pie()
+        const pie = layout.pie()
             .value((d, i) => d)
             .sort(null)
 
@@ -171,10 +171,10 @@ export class NxtChartComponent implements OnChanges {
     private setProgressBar () {
         this.d3Container.selectAll('rect').remove()
         this.d3Container.selectAll('text').remove()
-        let rects = this.d3Container.selectAll('rect')
-            .data(this.data, d =>  d.index)
-        let texts = this.d3Container.selectAll('text')
-            .data(this.data, d =>  d.index)
+        const rects = this.d3Container.selectAll('rect')
+            .data(this.data, (d) =>  d.index)
+        const texts = this.d3Container.selectAll('text')
+            .data(this.data, (d) =>  d.index)
 
         // Ajouter le fond de la barre de progression
         rects
@@ -188,7 +188,7 @@ export class NxtChartComponent implements OnChanges {
         rects
             .enter()
             .append('rect')
-            .attr('fill', d => d.color)
+            .attr('fill', (d) => d.color)
             .attr('width', 0)
             .attr('height', 40)
 
@@ -207,9 +207,9 @@ export class NxtChartComponent implements OnChanges {
         texts
             .transition()
             .duration(1000)
-            .tween('text', d => {
-                let i = interpolate(0, d.value)
-                return function(t) {
+            .tween('text', (d) => {
+                const i = interpolate(0, d.value)
+                return function (t) {
                     select('text').text(Math.round(i(t)) + '%')
                 }
             })
@@ -219,22 +219,22 @@ export class NxtChartComponent implements OnChanges {
             .duration(1000)
             .attr('x', 0)
             .attr('y', 0)
-            .attr('width', d => d.value * 3)
+            .attr('width', (d) => d.value * 3)
     }
 
     private setRectangles () {
-        let self = this
-        let rules = this.getRectangleRules()
+        const self = this
+        const rules = this.getRectangleRules()
         this.d3Container.selectAll('rect').remove()
 
-        let rects = this.d3Container.selectAll('rect')
-            .data(this.data, d =>  d.index)
+        const rects = this.d3Container.selectAll('rect')
+            .data(this.data, (d) =>  d.index)
 
         rects
             .enter()
             .append('rect')
-            .attr('fill', d => rules.color(d.index))
-            .attr('width', d => rules.x(0))
+            .attr('fill', (d) => rules.color(d.index))
+            .attr('width', (d) => rules.x(0))
             .on('mouseover', function (d, i) {
                 self.popTooltip(i, this)
             })
@@ -246,25 +246,25 @@ export class NxtChartComponent implements OnChanges {
             .transition()
             .duration(1000)
             .attr('x', rules.x(0))
-            .attr('y', d => rules.y(d.index))
+            .attr('y', (d) => rules.y(d.index))
             .attr('height', rules.y.rangeBand())
-            .attr('width', d => rules.x(d.value))
+            .attr('width', (d) => rules.x(d.value))
     }
 
     private getRectangleRules () {
-        let maxCount = max(this.data, d => d.value)
+        const maxCount = max(this.data, (d) => d.value)
 
-        let x = scale.linear()
+        const x = scale.linear()
             .range([0, 300])
             .domain([0, maxCount])
 
-        let y = scale.ordinal()
+        const y = scale.ordinal()
             .rangeRoundBands([0, 75])
-            .domain(this.data.map(d => d.index))
+            .domain(this.data.map((d) => d.index))
 
-        let color = scale.ordinal()
-            .range(this.data.map(d => d.color))
-            .domain(this.data.map(d => d.index))
+        const color = scale.ordinal()
+            .range(this.data.map((d) => d.color))
+            .domain(this.data.map((d) => d.index))
 
         return {
             color,
@@ -274,17 +274,17 @@ export class NxtChartComponent implements OnChanges {
     }
 
     private popTooltip (i: number, element: HTMLElement) {
-        let max: number = this.data.map(d => d.value).reduce((p, c) => p + c, 0)
-        let dataRow = this.data[i]
-        let percentage = Math.round((dataRow.value / max) * 10000) / 100
-        let tooltipText = `
+        const max: number = this.data.map((d) => d.value).reduce((p, c) => p + c, 0)
+        const dataRow = this.data[i]
+        const percentage = Math.round((dataRow.value / max) * 10000) / 100
+        const tooltipText = `
             <span class="nxt-chart-tooltip-label">${dataRow.label}</span>
             <br />
             <span class="nxt-chart-tooltip-percentage">${percentage}%</span>
         `
 
         this.nxtTooltipService.pop(this.viewRootContainerRef, tooltipText, element, 'top')
-            .then(viewRef => {
+            .then((viewRef) => {
                 this.viewRef = viewRef
             })
     }

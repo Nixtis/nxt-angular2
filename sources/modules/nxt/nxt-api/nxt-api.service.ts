@@ -3,7 +3,7 @@ import { Headers, Http, RequestOptions, Response } from '@angular/http'
 import { Subject } from 'rxjs/Rx'
 
 import { appConfig } from '../../../app'
-import { Url, createCookie, getCookie } from '../../../helpers'
+import { createCookie, getCookie, Url } from '../../../helpers'
 
 export class NxtApiService {
     private http: Http
@@ -24,28 +24,28 @@ export class NxtApiService {
     }
 
     public get (url: Url, cache: boolean = false, cacheDuration: number = 3600): Promise<any> {
-        let cachedData = this.cache.filter(c => c.url === url.getUrl())
+        const cachedData = this.cache.filter((c) => c.url === url.getUrl())
 
         if (cachedData.length > 0) {
-            let expires = new Date(cachedData[0].expires)
-            let now = new Date()
+            const expires = new Date(cachedData[0].expires)
+            const now = new Date()
 
             if (expires.getTime() > now.getTime()) {
                 return new Promise((resolve, reject) => resolve(cachedData[0].data))
             } else {
                 try {
-                    this.cache = this.cache.filter(c => c.url !== url.getUrl())
+                    this.cache = this.cache.filter((c) => c.url !== url.getUrl())
                     localStorage.setItem('nxtApiCache', JSON.stringify(cachedData))
                 } catch (e) {
-                    this.cache = this.cache.filter(c => c.url !== url.getUrl())
+                    this.cache = this.cache.filter((c) => c.url !== url.getUrl())
                 }
             }
         }
 
-        if (cache && this.queue.filter(q => q === url.getUrl()).length > 0) {
+        if (cache && this.queue.filter((q) => q === url.getUrl()).length > 0) {
             return new Promise((resolve, reject) => {
-                let subsciption = this.queue$.subscribe(queue => {
-                    if (queue.filter(q => q === url.getUrl()).length === 0) {
+                const subsciption = this.queue$.subscribe((queue) => {
+                    if (queue.filter((q) => q === url.getUrl()).length === 0) {
                         resolve(this.get(url, cache))
 
                         subsciption.unsubscribe()
@@ -54,21 +54,21 @@ export class NxtApiService {
             })
         } else {
             return this.authorizationHeader()
-                .then(headersObj => {
+                .then((headersObj) => {
                     this.queue.push(url.getUrl())
 
-                    let headers = new Headers(Object.assign({}, headersObj))
-                    let options = new RequestOptions({ headers })
+                    const headers = new Headers({ ...headersObj })
+                    const options = new RequestOptions({ headers })
 
                     return this.http.get(url.getUrl(), options)
                         .toPromise()
                         .then(this.extractData)
-                        .then(data => {
+                        .then((data) => {
                             if (cache) {
-                                let date = new Date()
+                                const date = new Date()
                                 date.setTime(date.getTime() + (cacheDuration * 1000))
 
-                                let dataToCache = { data, expires: date.toUTCString(), url: url.getUrl() }
+                                const dataToCache = { data, expires: date.toUTCString(), url: url.getUrl() }
 
                                 try {
                                     this.cache.push(dataToCache)
@@ -78,7 +78,7 @@ export class NxtApiService {
                                 }
                             }
 
-                            this.queue = this.queue.filter(q => q !== url.getUrl())
+                            this.queue = this.queue.filter((q) => q !== url.getUrl())
                             this.queue$.next(this.queue)
 
                             return data
@@ -89,9 +89,9 @@ export class NxtApiService {
 
     public post (url: Url, body: any): Promise<any> {
         return this.authorizationHeader()
-            .then(headersObj => {
-                let headers = new Headers(Object.assign({}, headersObj, { 'Content-Type': 'application/json' }))
-                let options = new RequestOptions({ headers })
+            .then((headersObj) => {
+                const headers = new Headers({ ...headersObj, 'Content-Type': 'application/json' })
+                const options = new RequestOptions({ headers })
 
                 return this.http
                     .post(url.getUrl(), JSON.stringify(body), options)
@@ -102,9 +102,9 @@ export class NxtApiService {
 
     public put (url: Url, body: any): Promise<any> {
         return this.authorizationHeader()
-            .then(headersObj => {
-                let headers = new Headers(Object.assign({}, headersObj, { 'Content-Type': 'application/json' }))
-                let options = new RequestOptions({ headers })
+            .then((headersObj) => {
+                const headers = new Headers({ ...headersObj, 'Content-Type': 'application/json' })
+                const options = new RequestOptions({ headers })
 
                 return this.http
                     .put(url.getUrl(), JSON.stringify(body), options)
@@ -115,9 +115,9 @@ export class NxtApiService {
 
     public patch (url: Url, body: any): Promise<any> {
         return this.authorizationHeader()
-            .then(headersObj => {
-                let headers = new Headers(Object.assign({}, headersObj, { 'Content-Type': 'application/json' }))
-                let options = new RequestOptions({ headers })
+            .then((headersObj) => {
+                const headers = new Headers({ ...headersObj, 'Content-Type': 'application/json' })
+                const options = new RequestOptions({ headers })
 
                 return this.http
                     .patch(url.getUrl(), JSON.stringify(body), options)
@@ -128,9 +128,9 @@ export class NxtApiService {
 
     public delete (url: Url): Promise<any> {
         return this.authorizationHeader()
-            .then(headersObj => {
-                let headers = new Headers(Object.assign({}, headersObj, { 'Content-Type': 'application/json' }))
-                let options = new RequestOptions({ headers })
+            .then((headersObj) => {
+                const headers = new Headers({ ...headersObj, 'Content-Type': 'application/json' })
+                const options = new RequestOptions({ headers })
 
                 return this.http
                     .delete(url.getUrl(), options)
@@ -141,9 +141,9 @@ export class NxtApiService {
 
     public uploadFile (url: Url, formData: FormData) {
         return this.authorizationHeader()
-            .then(headersObj => {
+            .then((headersObj) => {
                 return new Promise((resolve, reject) => {
-                    let xhr: XMLHttpRequest = new XMLHttpRequest()
+                    const xhr: XMLHttpRequest = new XMLHttpRequest()
 
                     xhr.onreadystatechange = () => {
                         if (xhr.readyState === 4) {
@@ -165,7 +165,7 @@ export class NxtApiService {
 
                     xhr.open('POST', url.getUrl(), true)
 
-                    for (let header in headersObj) {
+                    for (const header in headersObj) {
                         if (headersObj[header] !== undefined) {
                             xhr.setRequestHeader(header, headersObj[header])
                         }
@@ -177,7 +177,7 @@ export class NxtApiService {
     }
 
     public oauth (username: string, password: string): Promise<any> {
-        let body = {
+        const body = {
             client_id: appConfig.oauth.clientId,
             client_secret: appConfig.oauth.clientSecret,
             grant_type: 'password',
@@ -189,7 +189,7 @@ export class NxtApiService {
     }
 
     public oauthRefreshToken (refreshToken: string): Promise<any> {
-        let body = {
+        const body = {
             client_id: appConfig.oauth.clientId,
             client_secret: appConfig.oauth.clientSecret,
             grant_type: 'refresh_token',
@@ -204,12 +204,12 @@ export class NxtApiService {
     }
 
     public isLogged (): boolean {
-        let accessToken = getCookie('oauth')
+        const accessToken = getCookie('oauth')
 
         if (accessToken !== false) {
-            let now = new Date()
-            let expires = new Date(accessToken.token_expires)
-            let refreshExpires = new Date(accessToken.refresh_expires)
+            const now = new Date()
+            const expires = new Date(accessToken.token_expires)
+            const refreshExpires = new Date(accessToken.refresh_expires)
 
             return expires > now || refreshExpires > now
         }
@@ -218,10 +218,10 @@ export class NxtApiService {
     }
 
     private oauthRequest (body: any): Promise<any> {
-        let url = new Url(appConfig.api.protocol, appConfig.api.domain, appConfig.api.oauthPath)
+        const url = new Url(appConfig.api.protocol, appConfig.api.domain, appConfig.api.oauthPath)
 
-        let headers = new Headers({'Content-Type': 'application/json'})
-        let options = new RequestOptions({ headers })
+        const headers = new Headers({'Content-Type': 'application/json'})
+        const options = new RequestOptions({ headers })
 
         return this.http
             .post(url.getUrl(), JSON.stringify(body), options)
@@ -231,13 +231,13 @@ export class NxtApiService {
     }
 
     private extractAccessToken (response): any {
-        let tokenExpires = new Date()
+        const tokenExpires = new Date()
         tokenExpires.setTime(tokenExpires.getTime() + (response.expires_in * 1000))
 
-        let refreshExpires = new Date()
+        const refreshExpires = new Date()
         refreshExpires.setTime(refreshExpires.getTime() + (1000 * 3600 * 24 * 14))
 
-        let accessToken = {
+        const accessToken = {
             access_token: response.access_token,
             refresh_expires: refreshExpires,
             refresh_token: response.refresh_token,
@@ -252,12 +252,12 @@ export class NxtApiService {
     }
 
     private authorizationHeader (): Promise<any> {
-        let accessToken = getCookie('oauth')
+        const accessToken = getCookie('oauth')
 
         if (accessToken !== false) {
-            let now = new Date()
-            let expires = new Date(accessToken.token_expires)
-            let refreshExpires = new Date(accessToken.refresh_expires)
+            const now = new Date()
+            const expires = new Date(accessToken.token_expires)
+            const refreshExpires = new Date(accessToken.refresh_expires)
 
             if (expires > now) {
                 return new Promise((resolve, reject) => {
@@ -265,7 +265,7 @@ export class NxtApiService {
                 })
             } else if (refreshExpires > now) {
                 return this.oauthRefreshToken(accessToken.refresh_token)
-                    .then(response => {
+                    .then((response) => {
                         return { Authorization: `Bearer ${response.access_token}` }
                     })
             }
@@ -277,7 +277,7 @@ export class NxtApiService {
     }
 
     private extractData (res: Response) {
-        let body = res.json()
+        const body = res.json()
 
         return body || {}
     }

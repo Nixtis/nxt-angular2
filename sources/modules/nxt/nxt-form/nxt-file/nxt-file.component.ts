@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core'
 
-import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
+import { inputs, NxtFormComponent, NxtFormService, outputs } from '../'
 import { NxtTranslatePipe } from '../../nxt-translate'
 
 @Component({
@@ -57,7 +57,7 @@ export class NxtFileComponent extends NxtFormComponent {
     constructor (
         elementRef: ElementRef,
         nxtTranslatePipe: NxtTranslatePipe,
-        nxtFormService: NxtFormService
+        nxtFormService: NxtFormService,
     ) {
         super(nxtFormService)
 
@@ -74,16 +74,16 @@ export class NxtFileComponent extends NxtFormComponent {
     public ngOnInit () {
         this.init()
 
-        let dropzone = this.elementRef.nativeElement.querySelector('.nxt-file-drop-zone')
+        const dropzone = this.elementRef.nativeElement.querySelector('.nxt-file-drop-zone')
         dropzone.addEventListener('dragover', dragover)
-        dropzone.addEventListener('dragenter', e => {
+        dropzone.addEventListener('dragenter', (e) => {
             if (!this.disabled) {
                 e.preventDefault()
                 this.dragover = true
             }
         })
-        dropzone.addEventListener('dragleave',  e => this.dragover = false)
-        dropzone.addEventListener('drop', e => {
+        dropzone.addEventListener('dragleave',  (e) => this.dragover = false)
+        dropzone.addEventListener('drop', (e) => {
             if (!this.disabled) {
                 e.preventDefault()
 
@@ -114,7 +114,7 @@ export class NxtFileComponent extends NxtFormComponent {
 
     public initChange (event) {
         if (!this.disabled) {
-            let input = this.elementRef.nativeElement.querySelector('input')
+            const input = this.elementRef.nativeElement.querySelector('input')
 
             this.handleFiles(input.files)
 
@@ -138,11 +138,7 @@ export class NxtFileComponent extends NxtFormComponent {
         let badExtention: boolean = false
         let regex: RegExp
 
-        if (this.accepted.length > 0) {
-            regex = new RegExp(`\.(${this.accepted.join('|')})$`)
-        } else {
-            regex = new RegExp(`\.(.+)$`)
-        }
+        regex = (this.accepted.length > 0) ? new RegExp(`\.(${this.accepted.join('|')})$`) : new RegExp(`\.(.+)$`)
 
         if (files.length > 0) {
             for (let i = 0; i < files.length; i++) {

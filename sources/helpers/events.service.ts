@@ -5,9 +5,9 @@ export class EventsService {
         this.events = []
     }
 
-    public on (ref: any, event: string | string[], callback: Function) {
+    public on (ref: any, event: string | string[], callback: (...args) => void) {
         if (Array.isArray(event)) {
-            event.forEach(ev => {
+            event.forEach((ev) => {
                  this.addToListEvents(ev, callback, ref)
             })
         } else {
@@ -17,15 +17,15 @@ export class EventsService {
 
     public dispatch (event: string, ...args) {
         if (this.events[event] !== undefined) {
-            this.events[event].forEach(row => row.callback(...args))
+            this.events[event].forEach((row) => row.callback(...args))
         }
     }
 
     public unsubscribe (event: string, ref: any) {
-        this.events[event] = this.events[event].filter(row => row.ref !== ref)
+        this.events[event] = this.events[event].filter((row) => row.ref !== ref)
     }
 
-    private addToListEvents (event: string, callback: Function, ref: any) {
+    private addToListEvents (event: string, callback: (...args) => void, ref: any) {
         if (this.events[event] === undefined) {
             this.events[event] = []
         }

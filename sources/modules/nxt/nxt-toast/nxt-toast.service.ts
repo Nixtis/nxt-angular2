@@ -11,7 +11,7 @@ export class NxtToastService extends EventsService {
 
     constructor (
         @Inject(ComponentFactoryResolver) componentResolver,
-        applicationRef: ApplicationRef
+        applicationRef: ApplicationRef,
     ) {
         super()
 
@@ -24,8 +24,8 @@ export class NxtToastService extends EventsService {
         if (document.querySelectorAll('nxt-toast-container').length === 0) {
             const index = this.viewRootContainerRef.length
 
-            let toast = this.componentResolver.resolveComponentFactory(NxtToastContainerComponent)
-            let toastServiceInstance: ValueProvider = { provide: NxtToastService, useValue: this }
+            const toast = this.componentResolver.resolveComponentFactory(NxtToastContainerComponent)
+            const toastServiceInstance: ValueProvider = { provide: NxtToastService, useValue: this }
             const childInjector = ReflectiveInjector.resolve([ toastServiceInstance ])
             const injector = ReflectiveInjector.fromResolvedProviders(childInjector, this.viewRootContainerRef.injector)
             this.viewRootContainerRef.createComponent(toast, index, injector)

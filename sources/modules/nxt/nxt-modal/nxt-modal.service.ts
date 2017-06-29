@@ -10,7 +10,7 @@ export class NxtModalService extends EventsService {
     private componentResolver: ComponentFactoryResolver
 
     constructor (
-        componentResolver: ComponentFactoryResolver
+        componentResolver: ComponentFactoryResolver,
     ) {
         super()
 
@@ -22,7 +22,7 @@ export class NxtModalService extends EventsService {
             throw new Error('Component class must extends NxtModalContentComponent')
         }
 
-        let modal = this.componentResolver.resolveComponentFactory(NxtModalComponent)
+        const modal = this.componentResolver.resolveComponentFactory(NxtModalComponent)
         const providers: ValueProvider[] = [
             { provide: 'title', useValue: title },
             { provide: 'content', useValue: content },
@@ -35,11 +35,11 @@ export class NxtModalService extends EventsService {
         const childInjector = ReflectiveInjector.resolve(providers)
         const injector = ReflectiveInjector.fromResolvedProviders(childInjector, viewContainerRef.injector)
 
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             const index = viewContainerRef.length
 
-            let componentRef: ComponentRef<NxtModalComponent> = viewContainerRef.createComponent(modal, index, injector)
-            let viewRef = viewContainerRef.get(index)
+            const componentRef: ComponentRef<NxtModalComponent> = viewContainerRef.createComponent(modal, index, injector)
+            const viewRef = viewContainerRef.get(index)
 
             componentRef.instance.setViewRef(viewRef)
 

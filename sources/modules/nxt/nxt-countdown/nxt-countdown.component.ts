@@ -12,7 +12,7 @@ import { Component, Input } from '@angular/core'
         <span class="nxt-countdown-hours" *ngIf="years > 0 || months > 0 || days > 0 || hours > 0">{{ '{$0} hour(s)' | translate: [ hours ] }}</span>
         <span class="nxt-countdown-minutes" *ngIf="years > 0 || months > 0 || days > 0 || hours > 0 || minutes > 0">{{ '{$0} minute(s)' | translate: [ minutes ] }}</span>
         <span class="nxt-countdown-seconds" *ngIf="years > 0 || months > 0 || days > 0 || hours > 0 || minutes > 0 || seconds > 0">{{ '{$0} second(s)' | translate: [ seconds ] }}</span>
-        
+
         <span class="nxt-countdown-expired" *ngIf="timeLeft <= 0">{{ 'Expired' | translate }}</span>
     `,
 })
@@ -32,7 +32,7 @@ export class NxtCountdownComponent {
 
     public ngOnInit () {
         this.interval = setInterval(() => {
-            let now: Date = new Date()
+            const now: Date = new Date()
             this.timeLeft = Math.round((this.end.getTime() - now.getTime()) / 1000)
 
             this.seconds = this.timeLeft
@@ -40,29 +40,29 @@ export class NxtCountdownComponent {
                 this.seconds = Math.floor(this.timeLeft % 60)
             }
 
-            let sPerMinutes: number = 60
-            let minutesLeft: number = this.timeLeft / sPerMinutes
+            const sPerMinutes: number = 60
+            const minutesLeft: number = this.timeLeft / sPerMinutes
             this.minutes = Math.floor(minutesLeft)
             if (minutesLeft > 60) {
                 this.minutes = Math.floor(minutesLeft % 60)
             }
 
-            let sPerHours: number = sPerMinutes * 60
-            let hoursLeft: number = this.timeLeft / sPerHours
+            const sPerHours: number = sPerMinutes * 60
+            const hoursLeft: number = this.timeLeft / sPerHours
             this.hours = Math.floor(hoursLeft)
             if (hoursLeft > 24) {
                 this.hours = Math.floor(hoursLeft % 24)
             }
 
-            let sPerDay: number = sPerHours * 24
-            let daysLeft: number = this.timeLeft / sPerDay
+            const sPerDay: number = sPerHours * 24
+            const daysLeft: number = this.timeLeft / sPerDay
             this.days = Math.floor(daysLeft)
             if (daysLeft > 30) {
                 this.days = Math.floor(daysLeft % 30)
             }
 
-            let sPerMonths: number = sPerDay * 30
-            let monthsLeft: number = this.timeLeft / sPerMonths
+            const sPerMonths: number = sPerDay * 30
+            const monthsLeft: number = this.timeLeft / sPerMonths
             this.months = Math.floor(monthsLeft)
             if (monthsLeft > 12) {
                 this.months = Math.floor(monthsLeft % 12)

@@ -22,7 +22,7 @@ export class NxtTooltipDirective {
         el: ElementRef,
         applicationRef: ApplicationRef,
         injector: Injector,
-        nxtTooltipService: NxtTooltipService
+        nxtTooltipService: NxtTooltipService,
     ) {
         this.el = el.nativeElement
         this.viewRootContainerRef = injector.get(applicationRef.componentTypes[0]).viewContainerRef
@@ -50,7 +50,7 @@ export class NxtTooltipDirective {
 
         if (!this._hide) {
             this.nxtTooltipService.pop(this.viewRootContainerRef, this.content, this.el, this.position)
-                .then(viewRef => {
+                .then((viewRef) => {
                     this.viewRef = viewRef
                 })
         }

@@ -1,8 +1,8 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core'
 import { select } from '@angular-redux/store'
+import { Component, Input, ViewEncapsulation } from '@angular/core'
 import { Observable } from 'rxjs'
 
-import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
+import { inputs, NxtFormComponent, NxtFormService, outputs } from '../'
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -30,7 +30,7 @@ export class NxtTextareaComponent extends NxtFormComponent {
     @Input() public type: string
     @Input() public placeholder: string
 
-    @select(state => state.nxtForm)public nxtForm$: Observable<any>
+    @select((state) => state.nxtForm)public nxtForm$: Observable<any>
 
     constructor (nxtFormService: NxtFormService) {
         super(nxtFormService)

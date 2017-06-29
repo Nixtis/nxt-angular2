@@ -10,8 +10,8 @@ webpackConfig.entry.app.unshift('../build/dev-client.js')
 
 webpackConfig.plugins = webpackConfig.plugins.concat([
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new OpenBrowserPlugin({ url: 'http://localhost:' + config.port })
+    new webpack.NoEmitOnErrorsPlugin(),
+    new OpenBrowserPlugin({ url: 'http://localhost:' + config.port }),
 ])
 
 module.exports = webpackConfig

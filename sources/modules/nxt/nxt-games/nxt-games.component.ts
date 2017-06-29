@@ -28,7 +28,7 @@ export class NxtGamesComponent {
 
     constructor (
         componentResolver: ComponentFactoryResolver,
-        @Inject('viewContainerRef') viewContainerRef: ViewContainerRef
+        @Inject('viewContainerRef') viewContainerRef: ViewContainerRef,
     ) {
         this.componentResolver = componentResolver
         this.viewContainerRef = viewContainerRef
@@ -44,7 +44,7 @@ export class NxtGamesComponent {
 
     public launchGame (gameComponent) {
         this.gameLaunched = true
-        let game = this.componentResolver.resolveComponentFactory(gameComponent.component)
+        const game = this.componentResolver.resolveComponentFactory(gameComponent.component)
         this.gamesOutletView.createComponent(game)
     }
 

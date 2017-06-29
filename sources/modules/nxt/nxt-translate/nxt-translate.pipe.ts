@@ -14,7 +14,7 @@ export class NxtTranslatePipe implements PipeTransform {
         this.translate = translateService.getTranslation()
         this.output = ''
 
-        translateService.getTranslationObservable().subscribe(translate => this.translate = translate)
+        translateService.getTranslationObservable().subscribe((translate) => this.translate = translate)
     }
 
     public transform (input, varString: any[] = []): string {

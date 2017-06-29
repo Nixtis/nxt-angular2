@@ -15,24 +15,24 @@ import { NxtSelectComponent } from '../'
 })
 
 export class NxtSelectOptionComponent {
-     @Input() public value: string
+    @Input() public value: string
 
-     public textContent: string
-     public elementRef: ElementRef
+    public textContent: string
+    public elementRef: ElementRef
 
-     private nxtSelectComponent: NxtSelectComponent
-     private domSanitizer: DomSanitizer
+    private nxtSelectComponent: NxtSelectComponent
+    private domSanitizer: DomSanitizer
 
     constructor (
-        nxtSelectComponent: NxtSelectComponent,
-        elementRef: ElementRef,
-        domSanitizer: DomSanitizer
+    nxtSelectComponent: NxtSelectComponent,
+    elementRef: ElementRef,
+    domSanitizer: DomSanitizer,
     ) {
         this.value = ''
         this.nxtSelectComponent = nxtSelectComponent
         this.elementRef = elementRef
         this.domSanitizer = domSanitizer
-     }
+    }
 
     public ngAfterViewInit () {
         setTimeout(() => {
@@ -42,11 +42,11 @@ export class NxtSelectOptionComponent {
         })
     }
 
-     public select () {
-         this.nxtSelectComponent.initChange(this)
-     }
+    public select () {
+        this.nxtSelectComponent.initChange(this)
+    }
 
-     public getInnerHTML (): SafeHtml {
-         return this.domSanitizer.bypassSecurityTrustHtml(this.elementRef.nativeElement.querySelector('.nxt-option').innerHTML.trim())
-     }
+    public getInnerHTML (): SafeHtml {
+        return this.domSanitizer.bypassSecurityTrustHtml(this.elementRef.nativeElement.querySelector('.nxt-option').innerHTML.trim())
+    }
 }

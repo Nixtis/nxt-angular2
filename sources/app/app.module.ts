@@ -1,7 +1,7 @@
+import { NgRedux, NgReduxModule } from '@angular-redux/store'
 import { NgModule, ValueProvider } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
-import { NgRedux, NgReduxModule } from '@angular-redux/store'
 
 import { NxtModule } from '../modules/nxt/nxt.module'
 import { store } from '../reducers'
@@ -15,7 +15,7 @@ import { APP_ROUTER_PROVIDER, routing } from './app.routes'
 import * as Home from '../components/home'
 /// COMPONENTS IMPORTATION END
 
-let appStore: ValueProvider = { provide: 'AppStore', useValue: store }
+const appStore: ValueProvider = { provide: 'AppStore', useValue: store }
 
 /// COMPONENTS DEFINITION START
 const components: any[] = [

@@ -45,14 +45,14 @@ export class NxtDatepickerComponent {
         this.month = this.date.getMonth()
         this.year = this.date.getFullYear()
 
-        let maxYear = this.toDate ? this.toDate.getFullYear() : this.today.getFullYear() + 100
-        let minYear = this.fromDate ? this.fromDate.getFullYear() : this.today.getFullYear() - 100
+        const maxYear = this.toDate ? this.toDate.getFullYear() : this.today.getFullYear() + 100
+        const minYear = this.fromDate ? this.fromDate.getFullYear() : this.today.getFullYear() - 100
 
         for (let y = minYear; y <= maxYear; y++) {
             this.years.push(y)
         }
 
-        this.elementRef.nativeElement.querySelector('.calendar-container').addEventListener('click', event => {
+        this.elementRef.nativeElement.querySelector('.calendar-container').addEventListener('click', (event) => {
             event.stopPropagation()
         })
 
@@ -91,7 +91,7 @@ export class NxtDatepickerComponent {
     }
 
     public selectDate (day, month) {
-        let date = new Date()
+        const date = new Date()
         date.setDate(day)
         date.setFullYear(this.year)
         date.setHours(0, 0, 0, 0)
@@ -154,9 +154,9 @@ export class NxtDatepickerComponent {
     }
 
     private refreshMonth () {
-        let month = new Date()
+        const month = new Date()
         let isLeapYear: boolean = false
-        let _m = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        const _m = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
         this.weeks = []
 
@@ -168,8 +168,8 @@ export class NxtDatepickerComponent {
         _m[1] = isLeapYear ? 29 : 28
 
         let days = []
-        let lastDay = (month.getDay() === 0) ? 7 : month.getDay()
-        let prevMonth = (month.getMonth() - 1 < 0) ? 11 : month.getMonth() - 1
+        const lastDay = (month.getDay() === 0) ? 7 : month.getDay()
+        const prevMonth = (month.getMonth() - 1 < 0) ? 11 : month.getMonth() - 1
 
         for (let d = _m[prevMonth] - (lastDay - 1) + 1; d <= _m[prevMonth]; d++) {
             days.push({ isSelected: false, isToday: false, month: 'prev', num: d })
@@ -202,7 +202,7 @@ export class NxtDatepickerComponent {
                 this.weeks.push(days)
                 days = []
             } else if (d === _m[month.getMonth()]) {
-                let length = days.length
+                const length = days.length
 
                 for (let i = 1; i <= 7 - length; i++) {
                     days.push({ isSelected: false, isToday: false, month: 'next', num: i })
@@ -212,10 +212,6 @@ export class NxtDatepickerComponent {
             }
         }
 
-        if (this.date.getFullYear() === this.today.getFullYear() && this.date.getMonth() === this.today.getMonth() && this.date.getDate() === this.today.getDate()) {
-            this.isToday = true
-        } else {
-            this.isToday = false
-        }
+        this.isToday = this.date.getFullYear() === this.today.getFullYear() && this.date.getMonth() === this.today.getMonth() && this.date.getDate() === this.today.getDate()
     }
 }

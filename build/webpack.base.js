@@ -1,5 +1,6 @@
 var path = require('path')
 var root = path.resolve(__dirname, '../')
+var webpack = require('webpack')
 var autoprefixer = require('autoprefixer')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
@@ -78,6 +79,11 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('screen.css')
+        new ExtractTextPlugin('screen.css'),
+        new webpack.ContextReplacementPlugin(
+            /angular(\\|\/)core(\\|\/)@angular/,
+            path.join(__dirname, '../sources'), // location of your src
+            { }
+        )
     ],
 }

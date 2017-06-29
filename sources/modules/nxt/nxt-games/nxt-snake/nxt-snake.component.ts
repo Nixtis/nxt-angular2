@@ -39,7 +39,7 @@ export class NxtSnakeComponent {
         this.placeRandomlyApple()
 
         this.interval = setInterval(() => {
-            let coordinates = this.snake.getSnake()[0]
+            const coordinates = this.snake.getSnake()[0]
 
             switch (this.snake.getCurrentDirection()) {
                 case NxtSnake.DIRECTION_UP:
@@ -107,8 +107,8 @@ export class NxtSnakeComponent {
         let placed: boolean = false
 
         do {
-            let x: number = Math.floor(Math.random() * this.mapSize)
-            let y: number = Math.floor(Math.random() * this.mapSize)
+            const x: number = Math.floor(Math.random() * this.mapSize)
+            const y: number = Math.floor(Math.random() * this.mapSize)
 
             if (this.map[y][x].type === 'blank') {
                 placed = true
@@ -121,7 +121,7 @@ export class NxtSnakeComponent {
     private updateMap () {
         this.resetMap()
 
-        this.snake.getSnake().forEach(row => {
+        this.snake.getSnake().forEach((row) => {
             this.map[row.y][row.x].type = 'snake'
         })
 
@@ -131,7 +131,7 @@ export class NxtSnakeComponent {
     private resetMap () {
         this.map = []
         for (let i = 0; i < this.mapSize; i++) {
-            let line: any[] = []
+            const line: any[] = []
 
             for (let j = 0; j < this.mapSize; j++) {
                 line.push({ type: 'blank' })
@@ -153,7 +153,7 @@ class NxtSnake {
 
     public getSnake (): any[] {
         return [
-            ...this.snake.map(s => {
+            ...this.snake.map((s) => {
                 return { x: s.x, y: s.y }
             }),
         ]
@@ -187,7 +187,7 @@ class NxtSnake {
     }
 
     private isValidDirection (direction: number) {
-        let currenDirection: number = this.getCurrentDirection()
+        const currenDirection: number = this.getCurrentDirection()
 
         if (direction === NxtSnake.DIRECTION_UP && currenDirection === NxtSnake.DIRECTION_DOWN) {
             return false

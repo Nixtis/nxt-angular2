@@ -19,7 +19,7 @@ export class NxtAnalyticsGoogleService extends NxtAnalyticsService {
         ((i, s, o, g, r, a?, m?) => {
             i['GoogleAnalyticsObject'] = r
             i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }
-            let d = new Date()
+            const d = new Date()
             i[r].l = 1 * d.getTime()
             a = s.createElement(o)
             m = s.getElementsByTagName(o)[0]

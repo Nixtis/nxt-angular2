@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, Input, ViewEncapsulation } from '@angular/core'
-import { ILayer, Icon, LatLng, Map, control, geoJson, marker, tileLayer } from 'leaflet'
+import { control, geoJson, Icon, ILayer, LatLng, Map, marker, tileLayer } from 'leaflet'
 
 import { ICoordinates } from '../../../helpers'
 import { NxtMapService } from './'
@@ -36,7 +36,7 @@ export class NxtMapComponent {
 
     constructor (
         el: ElementRef,
-        @Inject(NxtMapService) nxtMapService: NxtMapService
+        @Inject(NxtMapService) nxtMapService: NxtMapService,
     ) {
         this.el = el
 
@@ -68,12 +68,12 @@ export class NxtMapComponent {
                     }
                 },
             })
-            let bounds = this.geoJson.getBounds()
+            const bounds = this.geoJson.getBounds()
 
             this.map.addLayer(this.geoJson)
             this.map.fitBounds(bounds)
 
-            this.geoJson.on('click', e => {
+            this.geoJson.on('click', (e) => {
                 this.nxtMapService.dispatch('clickOnGeoJson', e)
             })
         })
@@ -82,7 +82,7 @@ export class NxtMapComponent {
             this.addMarker({ lat: coordinates.lat, lng: coordinates.lng }, this.initIconMarker())
         })
 
-        this.nxtMapService.on(this, 'removeMarker', index => {
+        this.nxtMapService.on(this, 'removeMarker', (index) => {
             this.removeMarker(index)
         })
 
@@ -92,7 +92,7 @@ export class NxtMapComponent {
 
         this.nxtMapService.on(this, 'addLayer', (layer: ILayer) => {
             if (Array.isArray(layer)) {
-                layer.forEach(l => {
+                layer.forEach((l) => {
                     this.map.addLayer(l)
                     this.layers.push(l)
                 })
@@ -104,7 +104,7 @@ export class NxtMapComponent {
         })
 
         this.nxtMapService.on(this, 'clearMap', () => {
-            this.layers.forEach(layer => {
+            this.layers.forEach((layer) => {
                 this.map.removeLayer(layer)
             })
 
@@ -134,7 +134,7 @@ export class NxtMapComponent {
         setTimeout(() => {
             this.map.setZoom(zoom)
         }, 550)
-    };
+    }
 
     // Calls definition
 
@@ -150,7 +150,7 @@ export class NxtMapComponent {
             zoomControl: false,
         })
 
-        this.map.on('click', e => {
+        this.map.on('click', (e) => {
             this.nxtMapService.dispatch('clickOnMap', e)
         })
     }
@@ -229,7 +229,7 @@ export class NxtMapComponent {
     private addMapEngine () {
         // var googleLayer = new Google('ROADMAP')
 
-        let mapLayer = tileLayer(this.urlBaseMap, {
+        const mapLayer = tileLayer(this.urlBaseMap, {
             attribution: this.attribution,
             maxZoom: 18,
         })

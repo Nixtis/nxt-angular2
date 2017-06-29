@@ -8,7 +8,7 @@ export class HomeResolver implements CanActivate {
     private appStore
 
     constructor (
-        @Inject('AppStore') appStore
+        @Inject('AppStore') appStore,
     ) {
         this.appStore = appStore
     }

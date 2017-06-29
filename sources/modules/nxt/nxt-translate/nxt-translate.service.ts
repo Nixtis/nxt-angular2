@@ -55,7 +55,7 @@ export class NxtTranslateService {
     }
 
     private extractData (res: Response) {
-        let body = res.json()
+        const body = res.json()
 
         this.setTranslation(body)
 
@@ -63,7 +63,7 @@ export class NxtTranslateService {
     }
 
     private handleError (error: any) {
-        let errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error'
+        const errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error'
 
         return Observable.throw(errMsg)
     }

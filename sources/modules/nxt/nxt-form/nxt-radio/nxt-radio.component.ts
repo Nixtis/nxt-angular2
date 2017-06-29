@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core'
 
 import { Input } from '@angular/core'
 
-import { NxtFormComponent, NxtFormService, NxtRadioItemComponent, inputs, outputs } from '../'
+import { inputs, NxtFormComponent, NxtFormService, NxtRadioItemComponent, outputs } from '../'
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -45,8 +45,8 @@ export class NxtRadioComponent extends NxtFormComponent {
         this.tempValue = value
 
         if (this._value !== value) {
-            let radio = this.radios.find(r => r.value === value)
-            this.radios.forEach(r => r.selected = false)
+            const radio = this.radios.find((r) => r.value === value)
+            this.radios.forEach((r) => r.selected = false)
 
             if (radio) {
                 this.initChange(radio)
@@ -74,7 +74,7 @@ export class NxtRadioComponent extends NxtFormComponent {
 
             item.selected = true
 
-            this.radios.forEach(radio => {
+            this.radios.forEach((radio) => {
                 if (radio !== item) {
                     radio.selected = false
                 }
@@ -85,6 +85,6 @@ export class NxtRadioComponent extends NxtFormComponent {
     public reset () {
         this.onChange(null, false)
 
-        this.radios.forEach(radio => radio.selected = false)
+        this.radios.forEach((radio) => radio.selected = false)
     }
 }

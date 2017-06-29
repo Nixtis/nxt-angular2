@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewEncapsulation }
 import { SafeHtml } from '@angular/platform-browser'
 import { Observable } from 'rxjs/Rx'
 
-import { NxtFormComponent, NxtFormService, NxtSelectOptionComponent, inputs, outputs } from '../'
+import { inputs, NxtFormComponent, NxtFormService, NxtSelectOptionComponent, outputs } from '../'
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -74,7 +74,7 @@ export class NxtSelectComponent extends NxtFormComponent {
 
     constructor (
         elementRef: ElementRef,
-        nxtFormService: NxtFormService
+        nxtFormService: NxtFormService,
     ) {
         super(nxtFormService)
 
@@ -99,7 +99,7 @@ export class NxtSelectComponent extends NxtFormComponent {
         }
 
         if (this._value !== value) {
-            let options = this.optionsList.filter(o => o.value === value)
+            const options = this.optionsList.filter((o) => o.value === value)
 
             if (options.length > 0 && this.checkIfOptionInDom(options[0])) {
                 this.initChange(options[0])
@@ -128,7 +128,7 @@ export class NxtSelectComponent extends NxtFormComponent {
 
             this.selectedTags = [ ...this.selectedTags, option ]
 
-            this.onChange([ ...this.selectedTags.map(t => t.value) ])
+            this.onChange([ ...this.selectedTags.map((t) => t.value) ])
         } else {
             this.selectedTags = [ option ]
             this.onChange(option.value)
@@ -136,7 +136,7 @@ export class NxtSelectComponent extends NxtFormComponent {
     }
 
     public keyup (event) {
-        let search = event.path !== undefined ? event.path[0].value : event.target.value
+        const search = event.path !== undefined ? event.path[0].value : event.target.value
         this.showOptions = true
         this.loading = true
 
@@ -152,7 +152,7 @@ export class NxtSelectComponent extends NxtFormComponent {
             this.nxtFormService.unsubscribe('cancelSearch', event)
         })
 
-        let callback = (res: NxtSelectAutocompleteResults[]) => {
+        const callback = (res: NxtSelectAutocompleteResults[]) => {
             if (!cancelled) {
                 this.autocompleteResults = res
                 this.loading = false
@@ -177,16 +177,16 @@ export class NxtSelectComponent extends NxtFormComponent {
 
     public removeTag (tag: any) {
         this.selectedTags = [
-            ...this.selectedTags.filter(t => t !== tag),
+            ...this.selectedTags.filter((t) => t !== tag),
         ]
 
-        this.onChange(this.multiple ? this.selectedTags.map(o => o.value) : this.selectedTags.length > 0 ? this.selectedTags[0].value : '')
+        this.onChange(this.multiple ? this.selectedTags.map((o) => o.value) : this.selectedTags.length > 0 ? this.selectedTags[0].value : '')
     }
 
     public onClick (event) {
-        let target = event.path !== undefined ? event.path[0] : event.target
-        let selectDropdown = this.elementRef.nativeElement.querySelector('.nxt-select-dropdown') || this.elementRef.nativeElement.querySelector('.nxt-select-input-autocomplete')
-        let selectOptions = this.elementRef.nativeElement.querySelector('.nxt-select-options')
+        const target = event.path !== undefined ? event.path[0] : event.target
+        const selectDropdown = this.elementRef.nativeElement.querySelector('.nxt-select-dropdown') || this.elementRef.nativeElement.querySelector('.nxt-select-input-autocomplete')
+        const selectOptions = this.elementRef.nativeElement.querySelector('.nxt-select-options')
 
         if (selectDropdown === null || (!selectDropdown.contains(target) && !selectOptions.contains(target))) {
             this.showOptions = false
@@ -202,13 +202,13 @@ export class NxtSelectComponent extends NxtFormComponent {
     }
 
     private checkIfOptionInDom (option: NxtSelectOptionComponent) {
-        let selectOptions = this.elementRef.nativeElement.querySelector('.nxt-select-options')
-        let optionElement = option.elementRef.nativeElement
+        const selectOptions = this.elementRef.nativeElement.querySelector('.nxt-select-options')
+        const optionElement = option.elementRef.nativeElement
 
         if (selectOptions.contains(optionElement)) {
             return true
         } else {
-            this.optionsList = this.optionsList.filter(o => o !== option)
+            this.optionsList = this.optionsList.filter((o) => o !== option)
 
             return false
         }

@@ -14,7 +14,7 @@ export class NxtModalContentComponent {
         context: any,
         eventsService: EventsService,
         viewRefModal: ViewRef,
-        viewContainerRef: ViewContainerRef
+        viewContainerRef: ViewContainerRef,
     ) {
         this.context = context
         this.eventsService = eventsService

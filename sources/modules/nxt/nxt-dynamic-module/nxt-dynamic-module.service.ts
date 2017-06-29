@@ -15,7 +15,7 @@ export class NxtDynamicModuleService {
         this.compiler.clearCache()
 
         if (this.ngModuleRef !== null) {
-            return new Promise(resolve => this.createComponent(component, providers, viewContainerRef, index))
+            return new Promise((resolve) => this.createComponent(component, providers, viewContainerRef, index))
         } else {
             return this.compiler.compileModuleAsync(this.createDynamicModule(component, declarations))
                 .then((value) => {
@@ -27,7 +27,7 @@ export class NxtDynamicModuleService {
     }
 
     private createComponent (component, providers: ValueProvider[], viewContainerRef: ViewContainerRef, index: number) {
-        let factory = this.ngModuleRef.componentFactoryResolver.resolveComponentFactory(component)
+        const factory = this.ngModuleRef.componentFactoryResolver.resolveComponentFactory(component)
 
         const childInjector = ReflectiveInjector.resolve(providers)
         const injector = ReflectiveInjector.fromResolvedProviders(childInjector, viewContainerRef.injector)

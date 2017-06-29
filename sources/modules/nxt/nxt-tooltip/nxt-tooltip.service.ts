@@ -11,14 +11,14 @@ export class NxtTooltipService {
 
     constructor (
         @Inject(ComponentFactoryResolver) componentResolver,
-        domSanitizer: DomSanitizer
+        domSanitizer: DomSanitizer,
     ) {
         this.componentResolver = componentResolver
         this.domSanitizer = domSanitizer
     }
 
     public pop (viewContainerRef: ViewContainerRef, content: string, el: HTMLElement, position: string): Promise<ViewRef> {
-        let tooltip = this.componentResolver.resolveComponentFactory(NxtTooltipComponent)
+        const tooltip = this.componentResolver.resolveComponentFactory(NxtTooltipComponent)
         const index = viewContainerRef.length
 
         const providers: ValueProvider[] = [

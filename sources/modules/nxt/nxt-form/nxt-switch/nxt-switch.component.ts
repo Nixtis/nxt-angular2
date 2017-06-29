@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core'
 
 import { Input } from '@angular/core'
 
-import { NxtFormComponent, NxtFormService, inputs, outputs } from '../'
+import { inputs, NxtFormComponent, NxtFormService, outputs } from '../'
 
 @Component({
     encapsulation: ViewEncapsulation.None,
