@@ -8,13 +8,13 @@ export class {{resolverClassName}} implements CanActivate {
     private appStore
 
     constructor (
-        @Inject('AppStore') appStore
+        @Inject('AppStore') appStore,
     ) {
         this.appStore = appStore
     }
 
     public canActivate (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        this.appStore.dispatch(AppActions.setAppState({ loading: true }))
+        this.appStore.dispatch(AppActions.setLoading(true))
 
         return true
     }

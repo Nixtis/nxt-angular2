@@ -12,13 +12,13 @@ export class {{componentClassName}} {
     private appStore
 
     constructor (
-        @Inject('AppStore') appStore
+        @Inject('AppStore') appStore,
     ) {
         this.appStore = appStore
     }
 
     public ngOnInit () {
-        this.appStore.dispatch(AppActions.setAppState({ loading: false }))
+        this.appStore.dispatch(AppActions.setLoading(false))
     }
 
 }
